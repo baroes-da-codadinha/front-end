@@ -1,7 +1,6 @@
-* {
-    box-sizing: border-box;
-    font-size: 62.5%;
-}
+@import './buttons.css';
+
+
 
 :root {
     /* Cores */
@@ -10,7 +9,24 @@
     --laranja-claro: #FB3B00;
     --areia: #DA803C;
 
+    --cinza-azulado: #6F7377;
+    --cinza-neutro: #393C40;
+    --cinza-claro: #C9CCD1;
+
+    --cinza: #E5E5E5;
+    --branco: #FFFFFF;
+
+
+
     /* Fontes */
     --baloo: 'Baloo 2', cursive;
     --montserrat: 'Montserrat', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: var(--montserrat);
+    font-size: 62.5%;
+    margin: 0;
+    padding: 0;
 }
