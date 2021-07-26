@@ -1,0 +1,12 @@
+input, select{
+    border: 1px solid #BEBEBE;
+    color: var(--cinza-escuro);
+    font-size: 1.6rem;
+    border-radius: 0.7rem;
+    padding: 1rem 2.4rem;
+}
+
+input::placeholder{
+    color: var(--cinza-azulado);
+    font-size: 1.6rem;
+}

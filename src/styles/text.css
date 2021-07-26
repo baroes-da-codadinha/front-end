@@ -1,0 +1,22 @@
+.titulo {
+    font-family: var(--baloo);
+    font-weight: 400;
+}
+
+.restaurante {
+    color: var(--branco);
+    font-size: 4rem;
+}
+
+.pagina {
+    color: var(--laranja-intenso);
+    font-size: 3.2rem;
+}
+
+
+.label {
+    color: var(--cinza-escuro);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1.6rem;
+}

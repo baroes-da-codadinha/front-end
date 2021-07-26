@@ -1,6 +1,6 @@
 @import './buttons.css';
-
-
+@import './text.css';
+@import './inputs.css';
 
 :root {
     /* Cores */
@@ -10,9 +10,9 @@
     --areia: #DA803C;
 
     --cinza-azulado: #6F7377;
-    --cinza-neutro: #393C40;
+    --cinza-escuro: #393C40;
     --cinza-claro: #C9CCD1;
-
+    
     --cinza: #E5E5E5;
     --branco: #FFFFFF;
 
