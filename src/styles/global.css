@@ -1,6 +1,12 @@
+@import './alignments.css';
 @import './buttons.css';
 @import './text.css';
 @import './inputs.css';
+
+@font-face {
+    font-family: "Baloo";
+    src: local("Baloo"), url("../assets/fonts/Baloo-Regular.ttf") format("truetype");
+}
 
 :root {
     /* Cores */
@@ -12,6 +18,8 @@
     --cinza-azulado: #6F7377;
     --cinza-escuro: #393C40;
     --cinza-claro: #C9CCD1;
+
+    --azul-link: #045787;
     
     --cinza: #E5E5E5;
     --branco: #FFFFFF;
@@ -19,7 +27,7 @@
 
 
     /* Fontes */
-    --baloo: 'Baloo 2', cursive;
+    --baloo: 'Baloo', cursive;
     --montserrat: 'Montserrat', sans-serif;
 }
 
@@ -29,4 +37,13 @@
     font-size: 62.5%;
     margin: 0;
     padding: 0;
+}
+
+body{
+    height: 100%;
+    width: 100vw;
+}
+
+.base{
+    background-color: var(--branco);
 }
