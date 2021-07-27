@@ -22,3 +22,7 @@
 .align-start {
   align-self: flex-start;
 }
+
+.baseline{
+  align-items: baseline;
+}
