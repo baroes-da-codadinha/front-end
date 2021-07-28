@@ -3,16 +3,35 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
+  Redirect,
 } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import useAuth from './hooks/useAuth';
 import Cadastro from './pages/Cadastro';
+
+function RotasProtegidas(props) {
+  const { token } = useAuth();
+
+  return (
+    <Route
+      render={() => (token ? props.children : <Redirect to="/" />)}
+    />
+  );
+}
 
 function Rotas() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Cadastro} />
-      </Switch>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Switch>
+          <Route path="/" />
+          <Route path="/cadastro" component={Cadastro} />
+          <RotasProtegidas>
+            <Route path="/produtos" />
+          </RotasProtegidas>
+        </Switch>
+      </Router>
+    </AuthProvider>
   );
 }
 
