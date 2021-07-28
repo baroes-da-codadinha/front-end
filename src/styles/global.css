@@ -44,6 +44,12 @@ body{
     width: 100vw;
 }
 
+a {
+    color: var(--azul-link);
+    font-family: inherit;
+    font-size: inherit;
+}
+
 .base{
     background-color: var(--branco);
 }

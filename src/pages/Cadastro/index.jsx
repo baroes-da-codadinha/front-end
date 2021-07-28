@@ -27,7 +27,29 @@ export default function Cadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [restaurante, setRestaurante] = useState('');
+  const [categoria, setCategoria] = useState('');
   const [descricao, setDescricao] = useState('');
+  const [taxa, setTaxa] = useState('');
+  const [tempo, setTempo] = useState('');
+  const [minimo, setMinimo] = useState('');
+
+  function handleCriarconta() {
+    const cadastro = {
+      nome,
+      email,
+      senha,
+      restaurante: {
+        nome: restaurante,
+        descricao,
+        categoria,
+        taxaEntrega: taxa,
+        tempoEntregaEmMinutos: tempo,
+        valorMinimoPedido: minimo,
+      },
+    };
+    console.log(cadastro);
+  }
 
   function handleIr() {
     const newStep = [...step];
@@ -93,9 +115,13 @@ export default function Cadastro() {
             <>
               <InputTexto
                 label="Nome do restaurante"
+                value={restaurante}
+                setValue={setRestaurante}
               />
               <InputTexto
                 label="Categoria do restaurante"
+                value={categoria}
+                setValue={setCategoria}
               />
               <Textarea
                 label="Descrição"
@@ -109,12 +135,18 @@ export default function Cadastro() {
             <>
               <InputValor
                 label="Taxa de entrega"
+                value={taxa}
+                setValue={setTaxa}
               />
               <InputTexto
-                label="Tempo estimado de entrega"
+                label="Tempo estimado de entrega (em minutos)"
+                value={tempo}
+                setValue={setTempo}
               />
               <InputValor
                 label="Valor mínimo do pedido"
+                value={minimo}
+                setValue={setMinimo}
               />
             </>
           )}
@@ -131,8 +163,7 @@ export default function Cadastro() {
               <button
                 className="aceitar"
                 type="button"
-                onClick={() => handleIr()}
-                disabled
+                onClick={() => handleCriarconta()}
               >
                 Criar conta
               </button>
