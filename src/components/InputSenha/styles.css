@@ -7,4 +7,5 @@
     top: 4.5rem;
     right: 1.5rem;
     cursor: pointer;
+    z-index: 3;
 }

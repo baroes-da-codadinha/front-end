@@ -88,7 +88,7 @@ export default function Cadastro() {
         </div>
         <form className="formulario">
           {step[0].status === 'editando' && (
-            <>
+            <div className="form-um">
               <InputTexto
                 label="Nome do usuário"
                 value={nome}
@@ -109,10 +109,10 @@ export default function Cadastro() {
                 value={confirmarSenha}
                 setValue={setConfirmarSenha}
               />
-            </>
+            </div>
           )}
           {step[1].status === 'editando' && (
-            <>
+            <div className="form-dois">
               <InputTexto
                 label="Nome do restaurante"
                 value={restaurante}
@@ -129,10 +129,10 @@ export default function Cadastro() {
                 value={descricao}
                 setValue={setDescricao}
               />
-            </>
+            </div>
           )}
           {step[2].status === 'editando' && (
-            <>
+            <div className="form-tres">
               <InputValor
                 label="Taxa de entrega"
                 value={taxa}
@@ -148,7 +148,7 @@ export default function Cadastro() {
                 value={minimo}
                 setValue={setMinimo}
               />
-            </>
+            </div>
           )}
           <div className="button-box">
             <button
@@ -176,7 +176,6 @@ export default function Cadastro() {
                 Próximo
               </button>
             )}
-
           </div>
           <div className="link-box">
             <span>Já tem uma conta? </span>

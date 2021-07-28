@@ -18,7 +18,6 @@ export default function InputSenha({
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-
       <FontAwesomeIcon
         icon={mostrarSenha ? faEye : faEyeSlash}
         className="eye-password"
