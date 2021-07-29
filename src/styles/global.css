@@ -2,7 +2,6 @@
 @import './buttons.css';
 @import './text.css';
 @import './inputs.css';
-
 @font-face {
     font-family: "Baloo";
     src: local("Baloo"), url("../assets/fonts/Baloo-Regular.ttf") format("truetype");
@@ -14,18 +13,13 @@
     --laranja-escuro: #AA330F;
     --laranja-claro: #FB3B00;
     --areia: #DA803C;
-
     --cinza-azulado: #6F7377;
     --cinza-escuro: #393C40;
+    --cinza-medio: #525459;
     --cinza-claro: #C9CCD1;
-
     --azul-link: #045787;
-    
     --cinza: #E5E5E5;
     --branco: #FFFFFF;
-
-
-
     /* Fontes */
     --baloo: 'Baloo', cursive;
     --montserrat: 'Montserrat', sans-serif;
@@ -39,7 +33,7 @@
     padding: 0;
 }
 
-body{
+body {
     height: 100%;
     width: 100vw;
 }
@@ -50,6 +44,22 @@ a {
     font-size: inherit;
 }
 
-.base{
+.base {
     background-color: var(--branco);
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+    supported by Chrome, Edge, Opera and Firefox */
 }

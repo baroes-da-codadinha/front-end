@@ -11,7 +11,7 @@
     background-color: var(--cinza-light);
     border: 1px solid var(--cinza-claro);
     cursor: pointer;
-    transition: 0.7s;
+    transition: 0.3s;
 }
 
 .toggle-out.ativada {
@@ -30,4 +30,11 @@
 .toggle-in.ativada{
     background-color: var(--verde-limao);
     margin-left: 52%;
+}
+
+.toggle-text{
+    color: var(--cinza-medio);
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-left: 1.2rem;
 }

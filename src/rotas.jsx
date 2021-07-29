@@ -8,6 +8,7 @@ import {
 import { AuthProvider } from './context/AuthContext';
 import useAuth from './hooks/useAuth';
 import Cadastro from './pages/Cadastro';
+import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 
 function RotasProtegidas(props) {
@@ -27,8 +28,9 @@ function Rotas() {
         <Switch>
           <Route path="/" exact component={Login} />
           <Route path="/cadastro" exact component={Cadastro} />
+          <Route path="/produtos" exact component={Dashboard} />
           <RotasProtegidas>
-            <Route path="/produtos" />
+            <Route path="/produtosII" />
           </RotasProtegidas>
         </Switch>
       </Router>

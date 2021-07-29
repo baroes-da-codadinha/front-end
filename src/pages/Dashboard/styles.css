@@ -1,0 +1,10 @@
+.blurry{
+    position: absolute;
+    filter: blur(0.6rem);
+}
+
+.container-produtos{
+    background-color: var(--branco);
+    height:100%;
+    width: 100%;
+}

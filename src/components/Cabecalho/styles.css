@@ -1,0 +1,32 @@
+.imagem-cabecalho {
+    background-color: black;
+    height: 32vh;
+    width: 100vw;
+    border-radius: 0 0 232px 0;
+    background-image: url('../../assets/bg-pizzaria.png');
+    background-position: bottom;
+    position: relative;
+    z-index: 0;
+}
+
+.dash-ilustracao {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 66%;
+    heigth: auto;
+}
+
+.avatar-borda {
+    position: absolute;
+    z-index: 2;
+    top: 18vh;
+    left: 9vw;
+    background-color: black;
+    height: 17.6rem;
+    width: 17.6rem;
+    border-radius: 50%;
+    border: solid 0.6rem var(--branco);
+    overflow: hidden;
+}
