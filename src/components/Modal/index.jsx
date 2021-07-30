@@ -5,20 +5,21 @@ import Textarea from '../Textarea';
 import Toggle from '../Toggle';
 import InputValor from '../InputValor';
 import InputImagem from '../InputImagem';
+import editarPreco from '../../functions/editarPreco';
 
-export default function Modal({ produto }) {
-  const [nome, setNome] = useState(produto.nome ?? '');
-  const [descricao, setDescricao] = useState(produto.descricao ?? '');
-  const [valor, setValor] = useState(produto.preco ?? '');
-  const [ativar, setAtivar] = useState(produto.ativo ?? false);
-  const [observacoes, setObservacoes] = useState(produto.permite_observacoes ?? false);
+export default function Modal({ produto, setModal, setProdutoEditado }) {
+  const [nome, setNome] = useState(produto ? produto.nome : '');
+  const [descricao, setDescricao] = useState(produto ? produto.descricao : '');
+  const [valor, setValor] = useState(produto ? produto.preco : '');
+  const [ativar, setAtivar] = useState(produto ? produto.ativo : false);
+  const [observacoes, setObservacoes] = useState(produto ? produto.permite_observacoes : false);
 
   return (
     <>
       <div className="modal">
         <div className="base n-produto">
           <div className="title-box">
-            <span className="titulo pagina">Cadastro</span>
+            <span className="titulo pagina">{`${produto ? 'Editar' : 'Novo'} produto`}</span>
           </div>
           <form>
             <div className="flex-row">
@@ -36,7 +37,7 @@ export default function Modal({ produto }) {
                 />
                 <InputValor
                   label="Valor"
-                  value={valor}
+                  value={editarPreco(valor)}
                   setValue={setValor}
                 />
                 <Toggle
@@ -58,6 +59,10 @@ export default function Modal({ produto }) {
               <button
                 className="cancelar"
                 type="button"
+                onClick={() => {
+                  setModal(false);
+                  setProdutoEditado(null);
+                }}
               >
                 Cancelar
               </button>

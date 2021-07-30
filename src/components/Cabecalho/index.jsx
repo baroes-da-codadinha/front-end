@@ -11,6 +11,17 @@ export default function Cabecalho() {
       <div className="avatar-borda">
         <img src={Avatar} alt="avatar" />
       </div>
+      <div className="localizar-titulo">
+        <span className="titulo">
+          Nome da pizzaria
+        </span>
+        <button
+          className="botao-logout"
+          type="button"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
