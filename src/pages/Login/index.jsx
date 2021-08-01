@@ -4,12 +4,16 @@ import { NavLink } from 'react-router-dom';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
 import IllustrationLogin from '../../assets/illustration-comp.svg';
+import Snackbar from '../../components/Snackbar';
+import api from '../../services/api';
+import useAuthProvider from '../../hooks/useAuthProvider';
 
 export default function Login() {
+  const [openSnack, setOpenSnack] = useState(true);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const login = {
@@ -17,6 +21,12 @@ export default function Login() {
       senha,
     };
     console.log(login);
+    try {
+      const response = await api.post('/api/usuarios/login', { email, senha });
+      useAuthProvider.login(response.data.token);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -52,6 +62,10 @@ export default function Login() {
           </div>
         </form>
       </div>
+      <Snackbar
+        openSnack={openSnack}
+        setOpenSnack={setOpenSnack}
+      />
     </div>
   );
 }

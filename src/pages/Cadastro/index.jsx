@@ -10,6 +10,7 @@ import InputTexto from '../../components/InputTexto';
 import Textarea from '../../components/Textarea';
 import InputValor from '../../components/InputValor';
 import Stepper from '../../components/Stepper';
+import api from '../../services/api';
 
 export default function Cadastro() {
   const [step, setStep] = useState([{
@@ -34,7 +35,7 @@ export default function Cadastro() {
   const [tempo, setTempo] = useState('');
   const [minimo, setMinimo] = useState('');
 
-  function handleCriarconta() {
+  async function handleCriarconta() {
     const cadastro = {
       nome,
       email,
@@ -49,6 +50,17 @@ export default function Cadastro() {
       },
     };
     console.log(cadastro);
+    try {
+      const response = await api.post('api/usuarios/cadastrarUsuario', {
+        nome,
+        email,
+        senha,
+        restaurante,
+      });
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function handleIr() {
