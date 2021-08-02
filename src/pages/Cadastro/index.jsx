@@ -1,17 +1,23 @@
+/* eslint-disable max-len */
+/* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 import React, { useState } from 'react';
 import './styles.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
 import Textarea from '../../components/Textarea';
+import Snackbar from '../../components/Snackbar';
 import InputValor from '../../components/InputValor';
 import Stepper from '../../components/Stepper';
 
+import { post } from '../../services/ApiClient';
+
 export default function Cadastro() {
+  const history = useHistory();
   const [step, setStep] = useState([{
     valor: '1',
     status: 'editando',
@@ -23,6 +29,9 @@ export default function Cadastro() {
     status: '',
   },
   ]);
+  const [erro, setErro] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -34,7 +43,8 @@ export default function Cadastro() {
   const [tempo, setTempo] = useState('');
   const [minimo, setMinimo] = useState('');
 
-  function handleCriarconta() {
+  async function handleCriarconta(event) {
+    event.preventDefault();
     const cadastro = {
       nome,
       email,
@@ -42,13 +52,29 @@ export default function Cadastro() {
       restaurante: {
         nome: restaurante,
         descricao,
-        categoria,
+        idCategoria: categoria,
         taxaEntrega: taxa,
-        tempoEntregaEmMinutos: tempo,
+        tempoEntregaMinutos: tempo,
         valorMinimoPedido: minimo,
       },
     };
-    console.log(cadastro);
+
+    try {
+      const resposta = await post('usuarios', cadastro);
+
+      if (!resposta.ok) {
+        const mensagem = await resposta.json();
+
+        setErro(mensagem);
+        setOpenSnack(true);
+        return;
+      }
+
+      history.push('/');
+    } catch (error) {
+      setErro(error.message);
+      setOpenSnack(true);
+    }
   }
 
   function handleIr() {
@@ -86,7 +112,10 @@ export default function Cadastro() {
           <span className="titulo pagina">Cadastro</span>
           <Stepper step={step} />
         </div>
-        <form className="formulario">
+        <form
+          className="formulario"
+          onSubmit={(event) => handleCriarconta(event)}
+        >
           {step[0].status === 'editando' && (
             <div className="form-um">
               <InputTexto
@@ -162,8 +191,7 @@ export default function Cadastro() {
             {step[2].status ? (
               <button
                 className="aceitar"
-                type="button"
-                onClick={() => handleCriarconta()}
+                type="submit"
               >
                 Criar conta
               </button>
@@ -184,6 +212,11 @@ export default function Cadastro() {
         </form>
       </div>
       <div className="ilustracao" />
+      <Snackbar
+        erro={erro}
+        openSnack={openSnack}
+        setOpenSnack={setOpenSnack}
+      />
     </div>
   );
 }

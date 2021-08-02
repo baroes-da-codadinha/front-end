@@ -1,20 +1,28 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import './styles.css';
 import Cabecalho from '../../components/Cabecalho';
 import Modal from '../../components/Modal';
 import Card from '../../components/Card';
+// import { get } from '../../services/ApiClient';
 
 export default function Dashboard() {
   const [modal, setModal] = useState(false);
   const [produtoEditado, setProdutoEditado] = useState(null);
-  const produtos = true; // apenas p/ teste
-  const produto = {
-    nome: 'É um nome',
-    descricao: 'Pula boi, pula cavalo, pula cavalo e boi',
-    preco: '25000',
-    ativo: false,
-    permite_observacoes: true,
-  }; // apenas p/ teste
+  const [produtos, setProdutos] = useState([]);
+
+  // async function onLoad() {
+  //   try {
+  //     const resposta = await get('produtos', token);
+  //     setProdutos(await resposta.json());
+  //   } catch (error) {
+  //     setValues({ ...values, erro: error.message });
+  //   }
+  // }
+
+  // useEffect(() => {
+
+  // });
   return (
     <div>
       {modal && (
@@ -44,10 +52,11 @@ export default function Dashboard() {
         </div>
         {produtos && (
           <div className="container-produtos">
-            <Card produto={produto} setModal={setModal} setProdutoEditado={setProdutoEditado} />
-            <Card produto={produto} />
-            <Card produto={produto} />
-            <Card produto={produto} />
+            {
+              produtos.map((produto) => (
+                <Card produto={produto} setModal={setModal} setProdutoEditado={setProdutoEditado} />
+              ))
+            }
           </div>
         )}
       </div>

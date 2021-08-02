@@ -1,24 +1,55 @@
 import React, { useState } from 'react';
 import './styles.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
 import IllustrationLogin from '../../assets/illustration-comp.svg';
 import Snackbar from '../../components/Snackbar';
+import { post } from '../../services/ApiClient';
+import useAuth from '../../hooks/useAuth';
 
 export default function Login() {
-  const [openSnack, setOpenSnack] = useState(true);
+  const { logar } = useAuth();
+  const history = useHistory();
+
+  const [erro, setErro] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     const login = {
       email,
       senha,
     };
-    console.log(login);
+
+    if (!email || !senha) {
+      setErro('Todos os dados devem ser preenchidos');
+      setOpenSnack(true);
+    }
+    try {
+      const resposta = await post('login', login);
+
+      if (!resposta.ok) {
+        const mensagem = await resposta.json();
+
+        setErro(mensagem);
+        setOpenSnack(true);
+        return;
+      }
+
+      const { token } = await resposta.json();
+
+      logar(token);
+
+      history.push('/produtos');
+    } catch (error) {
+      setErro(error.message);
+      setOpenSnack(true);
+    }
   }
 
   return (
@@ -55,6 +86,7 @@ export default function Login() {
         </form>
       </div>
       <Snackbar
+        erro={erro}
         openSnack={openSnack}
         setOpenSnack={setOpenSnack}
       />
