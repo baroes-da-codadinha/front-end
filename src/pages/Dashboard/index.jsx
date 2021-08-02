@@ -20,8 +20,13 @@ export default function Dashboard() {
     try {
       const resposta = await get('produtos', token);
       if (resposta) {
-        console.log(await resposta.json());
-        setProdutos();
+        const arrayProdutos = await resposta.json();
+        if (arrayProdutos.length === 0) {
+          setProdutos();
+          return;
+        }
+        setProdutos(arrayProdutos);
+        return;
       }
     } catch (error) {
       setErro(error.message);
@@ -30,7 +35,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     onLoad();
-  });
+  }, []);
   return (
     <div>
       {modal && (
