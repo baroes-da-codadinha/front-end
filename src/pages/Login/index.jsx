@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import './styles.css';
 import { NavLink, useHistory } from 'react-router-dom';
