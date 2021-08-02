@@ -59,6 +59,12 @@ export default function Cadastro() {
       },
     };
 
+    if (senha !== confirmarSenha) {
+      setErro('As senhas digitadas devem ser iguais');
+      setOpenSnack(true);
+      return;
+    }
+
     try {
       const resposta = await post('usuarios', cadastro);
 
