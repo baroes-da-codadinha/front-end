@@ -84,9 +84,24 @@ export default function Cadastro() {
   }
 
   function handleIr() {
+    const mensagem = 'Preencha todos os itens para continuar';
     const newStep = [...step];
     for (let i = 0; i < newStep.length; i++) {
       if (newStep[i].status === 'editando') {
+        if (!nome || !email || !senha || !confirmarSenha) {
+          setErro(mensagem);
+          setOpenSnack(true);
+          break;
+        }
+
+        if (newStep[0].status === 'concluido') {
+          if (!restaurante || !categoria) {
+            setErro(mensagem);
+            setOpenSnack(true);
+            break;
+          }
+        }
+
         newStep[i].status = 'concluido';
       }
       if (newStep[i].status === '') {
