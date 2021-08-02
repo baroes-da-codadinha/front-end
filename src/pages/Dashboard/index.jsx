@@ -1,28 +1,36 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles.css';
 import Cabecalho from '../../components/Cabecalho';
 import Modal from '../../components/Modal';
 import Card from '../../components/Card';
-// import { get } from '../../services/ApiClient';
+import useAuth from '../../hooks/useAuth';
+import { get } from '../../services/ApiClient';
+import Snackbar from '../../components/Snackbar';
 
 export default function Dashboard() {
+  const { token } = useAuth();
   const [modal, setModal] = useState(false);
   const [produtoEditado, setProdutoEditado] = useState(null);
   const [produtos, setProdutos] = useState([]);
 
-  // async function onLoad() {
-  //   try {
-  //     const resposta = await get('produtos', token);
-  //     setProdutos(await resposta.json());
-  //   } catch (error) {
-  //     setValues({ ...values, erro: error.message });
-  //   }
-  // }
+  const [erro, setErro] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
 
-  // useEffect(() => {
+  async function onLoad() {
+    try {
+      const resposta = await get('produtos', token);
+      if (resposta) {
+        console.log(await resposta.json());
+        setProdutos();
+      }
+    } catch (error) {
+      setErro(error.message);
+    }
+  }
 
-  // });
+  useEffect(() => {
+    onLoad();
+  });
   return (
     <div>
       {modal && (
@@ -60,6 +68,11 @@ export default function Dashboard() {
           </div>
         )}
       </div>
+      <Snackbar
+        erro={erro}
+        openSnack={openSnack}
+        setOpenSnack={setOpenSnack}
+      />
     </div>
   );
 }
