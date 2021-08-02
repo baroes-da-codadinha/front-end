@@ -4,8 +4,10 @@ import { NavLink } from 'react-router-dom';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
 import IllustrationLogin from '../../assets/illustration-comp.svg';
+import Snackbar from '../../components/Snackbar';
 
 export default function Login() {
+  const [openSnack, setOpenSnack] = useState(true);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
@@ -52,6 +54,10 @@ export default function Login() {
           </div>
         </form>
       </div>
+      <Snackbar
+        openSnack={openSnack}
+        setOpenSnack={setOpenSnack}
+      />
     </div>
   );
 }

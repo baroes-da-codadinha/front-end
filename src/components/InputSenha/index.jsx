@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState } from 'react';
 import './styles.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import IconEyeOpen from '../../assets/eyeOpen.svg';
+import IconEyeClosed from '../../assets/eyeClosed.svg';
 
 export default function InputSenha({
   label, placeholder, value, setValue,
@@ -18,11 +20,11 @@ export default function InputSenha({
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      <FontAwesomeIcon
-        icon={mostrarSenha ? faEye : faEyeSlash}
+      <img
+        src={mostrarSenha ? IconEyeOpen : IconEyeClosed}
         className="eye-password"
-        size="lg"
         onClick={() => setMostrarSenha(!mostrarSenha)}
+        alt="olhos"
       />
     </div>
   );
