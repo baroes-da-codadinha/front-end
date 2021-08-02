@@ -1,3 +1,4 @@
+
 .img-login {
     height: 120vh;
     background-image: url('../../assets/bg-login.png');
@@ -39,4 +40,3 @@
 .button-box, .link-box {
     display: flex;
     justify-content: center;
-}

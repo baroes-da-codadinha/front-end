@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
+export const getToken = () => localStorage.getItem('TOKEN');
 export default function useAuthProvider() {
-  const [tokenPersistido, setTokenPersistido, removeTokenPersistido] = useLocalStorage('TOKEN', null);
+  const tokenkey = '@airbnb-Token';
+  const [tokenPersistido, setTokenPersistido, removeTokenPersistido] = useLocalStorage('TOKEN', tokenkey);
   const [token, setToken] = useState(tokenPersistido);
 
   const logar = () => {
@@ -11,7 +13,7 @@ export default function useAuthProvider() {
   };
 
   const deslogar = () => {
-    setToken(null);
+    setToken(tokenkey);
     removeTokenPersistido();
   };
 
