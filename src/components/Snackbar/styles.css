@@ -24,8 +24,9 @@
 }
 
 .aberta span{
-    margin: 0 auto;
-    font-size: 1.2rem;
+    margin: 0 auto 0 auto;
+    margin-left: 2rem;
+    font-size: 0.9vw;
 }
 
 .erro {

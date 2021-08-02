@@ -5,7 +5,6 @@ import Textarea from '../Textarea';
 import Toggle from '../Toggle';
 import InputValor from '../InputValor';
 import InputImagem from '../InputImagem';
-import editarPreco from '../../functions/editarPreco';
 
 export default function Modal({ produto, setModal, setProdutoEditado }) {
   const [nome, setNome] = useState(produto ? produto.nome : '');
@@ -37,7 +36,7 @@ export default function Modal({ produto, setModal, setProdutoEditado }) {
                 />
                 <InputValor
                   label="Valor"
-                  value={editarPreco(valor)}
+                  value={valor}
                   setValue={setValor}
                 />
                 <Toggle
@@ -76,7 +75,7 @@ export default function Modal({ produto, setModal, setProdutoEditado }) {
               ) : (
                 <button
                   className="aceitar"
-                  type="button"
+                  type="submit"
                 >
                   Adicionar produto ao cardápio
                 </button>

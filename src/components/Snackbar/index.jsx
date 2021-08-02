@@ -5,15 +5,11 @@ import React, { useState } from 'react';
 import './styles.css';
 import WarnIcon from '../../assets/warning.svg';
 
-export default function Snackbar({ openSnack, setOpenSnack }) {
-  const [testeMensagem, setTestMensagem] = useState({
-    status: 'erro',
-    mensagem: 'Texto',
-  }); // apenas para teste
+export default function Snackbar({ openSnack, setOpenSnack, erro }) {
   return (
     <>
       <div
-        className={`snackbar ${testeMensagem.status} ${openSnack && 'aberta'}`}
+        className={`snackbar erro ${openSnack && 'aberta'}`}
         onClick={() => setOpenSnack(false)}
       >
         {openSnack && (
@@ -25,7 +21,7 @@ export default function Snackbar({ openSnack, setOpenSnack }) {
               />
             </div>
             <span>
-              {testeMensagem.mensagem}
+              {erro}
             </span>
           </>
         )}

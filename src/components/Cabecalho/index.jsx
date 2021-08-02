@@ -1,9 +1,18 @@
 import React from 'react';
 import './styles.css';
+import { useHistory } from 'react-router-dom';
 import Illustration from '../../assets/illustration-3.svg';
 import Avatar from '../../assets/pizza.png';
+import useAuth from '../../hooks/useAuth';
 
 export default function Cabecalho() {
+  const history = useHistory();
+  const { deslogar } = useAuth();
+
+  function logout() {
+    history.push('/');
+    deslogar();
+  }
   return (
     <div>
       <div className="imagem-cabecalho" />
@@ -18,6 +27,7 @@ export default function Cabecalho() {
         <button
           className="botao-logout"
           type="button"
+          onClick={() => logout()}
         >
           Logout
         </button>

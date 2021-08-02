@@ -30,7 +30,7 @@ function Rotas() {
           <Route path="/cadastro" exact component={Cadastro} />
           <Route path="/produtos" exact component={Dashboard} />
           <RotasProtegidas>
-            <Route path="/produtosII" />
+            {/* <Route path="/produtosII" /> */}
           </RotasProtegidas>
         </Switch>
       </Router>
