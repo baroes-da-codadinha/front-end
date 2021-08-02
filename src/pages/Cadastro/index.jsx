@@ -13,7 +13,6 @@ import Textarea from '../../components/Textarea';
 import Snackbar from '../../components/Snackbar';
 import InputValor from '../../components/InputValor';
 import Stepper from '../../components/Stepper';
-
 import { post } from '../../services/ApiClient';
 
 export default function Cadastro() {
@@ -59,12 +58,6 @@ export default function Cadastro() {
       },
     };
 
-    if (senha !== confirmarSenha) {
-      setErro('As senhas digitadas devem ser iguais');
-      setOpenSnack(true);
-      return;
-    }
-
     try {
       const resposta = await post('usuarios', cadastro);
 
@@ -92,6 +85,12 @@ export default function Cadastro() {
           setErro(mensagem);
           setOpenSnack(true);
           break;
+        }
+
+        if (senha !== confirmarSenha) {
+          setErro('As senhas digitadas devem ser iguais');
+          setOpenSnack(true);
+          return;
         }
 
         if (newStep[0].status === 'concluido') {

@@ -35,7 +35,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     onLoad();
-  }, []);
+  }, [produtos]);
   return (
     <div>
       {modal && (

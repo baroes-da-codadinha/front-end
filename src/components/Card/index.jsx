@@ -1,19 +1,43 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import './styles.css';
 import Pizza from '../../assets/pizza.png';
+import Snackbar from '../Snackbar';
 import editarPreco from '../../functions/editarPreco';
+import { del } from '../../services/ApiClient';
+import useAuth from '../../hooks/useAuth';
 
 export default function Card({ produto, setModal, setProdutoEditado }) {
-  const [editando, setEditando] = useState(false);
+  const history = useHistory();
+  const { token } = useAuth();
   const { nome, preco, descricao } = produto;
+  const [editando, setEditando] = useState(false);
   const novoPreco = preco.toString();
   const precoFormatado = useRef(editarPreco(novoPreco, true));
 
-  function excluirProduto() {
-    console.log(produto);
+  const [erro, setErro] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
+
+  async function excluirProduto() {
+    const { id } = produto;
+    try {
+      const resposta = await del(`produtos/${id}`, token);
+
+      if (!resposta.ok) {
+        const mensagem = await resposta.json();
+
+        setErro(mensagem);
+        setOpenSnack(true);
+        return;
+      }
+
+      history.push('/produtos');
+    } catch (error) {
+      setErro(error.message);
+      setOpenSnack(true);
+    }
   }
   return (
     <>
@@ -53,6 +77,11 @@ export default function Card({ produto, setModal, setProdutoEditado }) {
           </div>
         </div>
       </div>
+      <Snackbar
+        erro={erro}
+        openSnack={openSnack}
+        setOpenSnack={setOpenSnack}
+      />
     </>
   );
 }
