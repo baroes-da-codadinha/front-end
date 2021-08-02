@@ -28,9 +28,8 @@ function Rotas() {
         <Switch>
           <Route path="/" exact component={Login} />
           <Route path="/cadastro" exact component={Cadastro} />
-          <Route path="/produtos" exact component={Dashboard} />
           <RotasProtegidas>
-            {/* <Route path="/produtosII" /> */}
+            <Route path="/produtos" exact component={Dashboard} />
           </RotasProtegidas>
         </Switch>
       </Router>
