@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './styles.css';
+import InputImagem from '../InputImagem';
 import InputTexto from '../InputTexto';
+import InputValor from '../InputValor';
 import Textarea from '../Textarea';
 import Toggle from '../Toggle';
-import InputValor from '../InputValor';
-import InputImagem from '../InputImagem';
 
 export default function Modal({ produto, setModal, setProdutoEditado }) {
   const [nome, setNome] = useState(produto ? produto.nome : '');

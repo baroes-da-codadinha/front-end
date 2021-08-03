@@ -11,7 +11,6 @@ export default function InputValor({
         id="value"
         type="text"
         placeholder={placeholder}
-        defaultValue={value}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />

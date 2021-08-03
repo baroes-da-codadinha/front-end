@@ -17,9 +17,9 @@
 }
 
 .aberta {
-    width: 20vw;
+    min-width: 20vw;
     min-height: 8vh;
-    padding: 1.2rem;
+    padding: 1.5rem;
     cursor: pointer;
 }
 

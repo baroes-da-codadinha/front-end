@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import './styles.css';
-import Cabecalho from '../../components/Cabecalho';
-import Modal from '../../components/Modal';
-import Card from '../../components/Card';
 import useAuth from '../../hooks/useAuth';
 import { get } from '../../services/ApiClient';
+import './styles.css';
+import Cabecalho from '../../components/Cabecalho';
+import Card from '../../components/Card';
+import Modal from '../../components/Modal';
 import Snackbar from '../../components/Snackbar';
 
 export default function Dashboard() {
   const { token } = useAuth();
+
+  const [produtos, setProdutos] = useState([]);
+
   const [modal, setModal] = useState(false);
   const [produtoEditado, setProdutoEditado] = useState(null);
-  const [produtos, setProdutos] = useState([]);
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -19,6 +21,7 @@ export default function Dashboard() {
   async function onLoad() {
     try {
       const resposta = await get('produtos', token);
+
       if (resposta) {
         const arrayProdutos = await resposta.json();
         if (arrayProdutos.length === 0) {
@@ -36,6 +39,7 @@ export default function Dashboard() {
   useEffect(() => {
     onLoad();
   }, [produtos]);
+
   return (
     <div>
       {modal && (

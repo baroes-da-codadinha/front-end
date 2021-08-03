@@ -1,7 +1,4 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
 import './styles.css';
 import Pizza from '../../assets/pizza.png';
 import Snackbar from '../Snackbar';
@@ -10,8 +7,8 @@ import { del } from '../../services/ApiClient';
 import useAuth from '../../hooks/useAuth';
 
 export default function Card({ produto, setModal, setProdutoEditado }) {
-  const history = useHistory();
   const { token } = useAuth();
+
   const { nome, preco, descricao } = produto;
   const [editando, setEditando] = useState(false);
   const novoPreco = preco.toString();
@@ -32,8 +29,6 @@ export default function Card({ produto, setModal, setProdutoEditado }) {
         setOpenSnack(true);
         return;
       }
-
-      history.push('/produtos');
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);

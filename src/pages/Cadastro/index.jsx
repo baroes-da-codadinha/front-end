@@ -1,19 +1,13 @@
-/* eslint-disable max-len */
-/* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
 import React, { useState } from 'react';
-import './styles.css';
 import { NavLink, useHistory } from 'react-router-dom';
+import { post } from '../../services/ApiClient';
+import './styles.css';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
-import Textarea from '../../components/Textarea';
-import Snackbar from '../../components/Snackbar';
 import InputValor from '../../components/InputValor';
+import Snackbar from '../../components/Snackbar';
 import Stepper from '../../components/Stepper';
-import { post } from '../../services/ApiClient';
+import Textarea from '../../components/Textarea';
 
 export default function Cadastro() {
   const history = useHistory();
@@ -28,19 +22,20 @@ export default function Cadastro() {
     status: '',
   },
   ]);
-  const [erro, setErro] = useState('');
-  const [openSnack, setOpenSnack] = useState(false);
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [restaurante, setRestaurante] = useState('');
-  const [categoria, setCategoria] = useState('');
+  const [nomeDoRestaurante, setNomeDoRestaurante] = useState('');
+  const [idCategoria, setIdCategoria] = useState('');
   const [descricao, setDescricao] = useState('');
-  const [taxa, setTaxa] = useState('');
-  const [tempo, setTempo] = useState('');
-  const [minimo, setMinimo] = useState('');
+  const [taxaEntrega, setTaxaEntrega] = useState('');
+  const [tempoEntregaMinutos, setTempoEntregaMinutos] = useState('');
+  const [valorMinimoPedido, setValorMinimoPedido] = useState('');
+
+  const [erro, setErro] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
 
   async function handleCriarconta(event) {
     event.preventDefault();
@@ -49,12 +44,12 @@ export default function Cadastro() {
       email,
       senha,
       restaurante: {
-        nome: restaurante,
+        nome: nomeDoRestaurante,
         descricao,
-        idCategoria: categoria,
-        taxaEntrega: taxa,
-        tempoEntregaMinutos: tempo,
-        valorMinimoPedido: minimo,
+        idCategoria,
+        taxaEntrega,
+        tempoEntregaMinutos,
+        valorMinimoPedido,
       },
     };
 
@@ -76,8 +71,8 @@ export default function Cadastro() {
     }
   }
 
-  function handleIr() {
-    const mensagem = 'Preencha todos os itens para continuar';
+  function handleAvançarStep() {
+    let mensagem = 'Preencha todos os itens para continuar';
     const newStep = [...step];
     for (let i = 0; i < newStep.length; i++) {
       if (newStep[i].status === 'editando') {
@@ -87,14 +82,27 @@ export default function Cadastro() {
           break;
         }
 
+        if (senha.length < 5) {
+          setErro('A senha deve ter mais de cinco caracteres.');
+          setOpenSnack(true);
+          break;
+        }
+
+        if (email.includes('@') || email.length < 3) {
+          setErro('Email inválido!');
+          setOpenSnack(true);
+          break;
+        }
+
         if (senha !== confirmarSenha) {
           setErro('As senhas digitadas devem ser iguais');
           setOpenSnack(true);
-          return;
+          break;
         }
 
         if (newStep[0].status === 'concluido') {
-          if (!restaurante || !categoria) {
+          if (!nomeDoRestaurante || !idCategoria) {
+            mensagem = 'Nome de restaurante e categoria são campos obrigatórios';
             setErro(mensagem);
             setOpenSnack(true);
             break;
@@ -111,7 +119,7 @@ export default function Cadastro() {
     setStep(newStep);
   }
 
-  function handleVoltar() {
+  function handleVoltarStep() {
     const newStep = [...step];
     for (let i = 2; i >= 0; i--) {
       if (newStep[i].status === 'editando') {
@@ -164,13 +172,13 @@ export default function Cadastro() {
             <div className="form-dois">
               <InputTexto
                 label="Nome do restaurante"
-                value={restaurante}
-                setValue={setRestaurante}
+                value={nomeDoRestaurante}
+                setValue={setNomeDoRestaurante}
               />
               <InputTexto
                 label="Categoria do restaurante"
-                value={categoria}
-                setValue={setCategoria}
+                value={idCategoria}
+                setValue={setIdCategoria}
               />
               <Textarea
                 label="Descrição"
@@ -184,18 +192,18 @@ export default function Cadastro() {
             <div className="form-tres">
               <InputValor
                 label="Taxa de entrega"
-                value={taxa}
-                setValue={setTaxa}
+                value={taxaEntrega}
+                setValue={setTaxaEntrega}
               />
               <InputTexto
                 label="Tempo estimado de entrega (em minutos)"
-                value={tempo}
-                setValue={setTempo}
+                value={tempoEntregaMinutos}
+                setValue={setTempoEntregaMinutos}
               />
               <InputValor
                 label="Valor mínimo do pedido"
-                value={minimo}
-                setValue={setMinimo}
+                value={valorMinimoPedido}
+                setValue={setValorMinimoPedido}
               />
             </div>
           )}
@@ -203,7 +211,7 @@ export default function Cadastro() {
             <button
               className="cancelar"
               type="button"
-              onClick={() => handleVoltar()}
+              onClick={() => handleVoltarStep()}
               disabled={!step[1].status}
             >
               Anterior
@@ -219,7 +227,7 @@ export default function Cadastro() {
               <button
                 className="aceitar"
                 type="button"
-                onClick={() => handleIr()}
+                onClick={() => handleAvançarStep()}
               >
                 Próximo
               </button>
