@@ -19,6 +19,7 @@ export default function Dashboard() {
   async function onLoad() {
     try {
       const resposta = await get('produtos', token);
+
       if (resposta) {
         const arrayProdutos = await resposta.json();
         if (arrayProdutos.length === 0) {
@@ -36,6 +37,7 @@ export default function Dashboard() {
   useEffect(() => {
     onLoad();
   }, [produtos]);
+
   return (
     <div>
       {modal && (

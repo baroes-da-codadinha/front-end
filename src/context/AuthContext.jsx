@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { createContext } from 'react';
 import useAuthProvider from '../hooks/useAuthProvider';
 
@@ -6,9 +5,9 @@ const AuthContext = createContext();
 
 export function AuthProvider(props) {
   const auth = useAuthProvider();
-
+  const { children } = props;
   return (
-    <AuthContext.Provider value={auth}>{props.children}</AuthContext.Provider>
+    <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
   );
 }
 

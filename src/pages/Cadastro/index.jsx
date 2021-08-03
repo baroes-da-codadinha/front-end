@@ -1,9 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
 import React, { useState } from 'react';
 import './styles.css';
 import { NavLink, useHistory } from 'react-router-dom';
