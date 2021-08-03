@@ -12,6 +12,7 @@ export default function Cabecalho() {
   const { token, deslogar } = useAuth();
 
   const [restaurante, setRestaurante] = useState('');
+
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 

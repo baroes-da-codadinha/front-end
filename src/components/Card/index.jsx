@@ -8,6 +8,7 @@ import useAuth from '../../hooks/useAuth';
 
 export default function Card({ produto, setModal, setProdutoEditado }) {
   const { token } = useAuth();
+
   const { nome, preco, descricao } = produto;
   const [editando, setEditando] = useState(false);
   const novoPreco = preco.toString();
