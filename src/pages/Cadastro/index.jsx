@@ -29,12 +29,12 @@ export default function Cadastro() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [restaurante, setRestaurante] = useState('');
-  const [categoria, setCategoria] = useState('');
+  const [nomeDoRestaurante, setNomeDoRestaurante] = useState('');
+  const [idCategoria, setIdCategoria] = useState('');
   const [descricao, setDescricao] = useState('');
-  const [taxa, setTaxa] = useState('');
-  const [tempo, setTempo] = useState('');
-  const [minimo, setMinimo] = useState('');
+  const [taxaEntrega, setTaxaEntrega] = useState('');
+  const [tempoEntregaMinutos, setTempoEntregaMinutos] = useState('');
+  const [valorMinimoPedido, setValorMinimoPedido] = useState('');
 
   async function handleCriarconta(event) {
     event.preventDefault();
@@ -43,12 +43,12 @@ export default function Cadastro() {
       email,
       senha,
       restaurante: {
-        nome: restaurante,
+        nome: nomeDoRestaurante,
         descricao,
-        idCategoria: categoria,
-        taxaEntrega: taxa,
-        tempoEntregaMinutos: tempo,
-        valorMinimoPedido: minimo,
+        idCategoria,
+        taxaEntrega,
+        tempoEntregaMinutos,
+        valorMinimoPedido,
       },
     };
 
@@ -71,7 +71,7 @@ export default function Cadastro() {
   }
 
   function handleIr() {
-    const mensagem = 'Preencha todos os itens para continuar';
+    let mensagem = 'Preencha todos os itens para continuar';
     const newStep = [...step];
     for (let i = 0; i < newStep.length; i++) {
       if (newStep[i].status === 'editando') {
@@ -94,7 +94,8 @@ export default function Cadastro() {
         }
 
         if (newStep[0].status === 'concluido') {
-          if (!restaurante || !categoria) {
+          if (!nomeDoRestaurante || !idCategoria) {
+            mensagem = 'Nome de restaurante e categoria são campos obrigatórios';
             setErro(mensagem);
             setOpenSnack(true);
             break;
@@ -164,13 +165,13 @@ export default function Cadastro() {
             <div className="form-dois">
               <InputTexto
                 label="Nome do restaurante"
-                value={restaurante}
-                setValue={setRestaurante}
+                value={nomeDoRestaurante}
+                setValue={setNomeDoRestaurante}
               />
               <InputTexto
                 label="Categoria do restaurante"
-                value={categoria}
-                setValue={setCategoria}
+                value={idCategoria}
+                setValue={setIdCategoria}
               />
               <Textarea
                 label="Descrição"
@@ -184,18 +185,18 @@ export default function Cadastro() {
             <div className="form-tres">
               <InputValor
                 label="Taxa de entrega"
-                value={taxa}
-                setValue={setTaxa}
+                value={taxaEntrega}
+                setValue={setTaxaEntrega}
               />
               <InputTexto
                 label="Tempo estimado de entrega (em minutos)"
-                value={tempo}
-                setValue={setTempo}
+                value={tempoEntregaMinutos}
+                setValue={setTempoEntregaMinutos}
               />
               <InputValor
                 label="Valor mínimo do pedido"
-                value={minimo}
-                setValue={setMinimo}
+                value={valorMinimoPedido}
+                setValue={setValorMinimoPedido}
               />
             </div>
           )}
