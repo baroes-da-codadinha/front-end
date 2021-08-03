@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import './styles.css';
 import { NavLink, useHistory } from 'react-router-dom';
+import { post } from '../../services/ApiClient';
+import './styles.css';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
-import Textarea from '../../components/Textarea';
-import Snackbar from '../../components/Snackbar';
 import InputValor from '../../components/InputValor';
+import Snackbar from '../../components/Snackbar';
 import Stepper from '../../components/Stepper';
-import { post } from '../../services/ApiClient';
+import Textarea from '../../components/Textarea';
 
 export default function Cadastro() {
   const history = useHistory();

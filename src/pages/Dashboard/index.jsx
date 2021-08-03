@@ -3,15 +3,16 @@ import useAuth from '../../hooks/useAuth';
 import { get } from '../../services/ApiClient';
 import './styles.css';
 import Cabecalho from '../../components/Cabecalho';
-import Modal from '../../components/Modal';
 import Card from '../../components/Card';
+import Modal from '../../components/Modal';
 import Snackbar from '../../components/Snackbar';
 
 export default function Dashboard() {
   const { token } = useAuth();
+
   const [modal, setModal] = useState(false);
-  const [produtoEditado, setProdutoEditado] = useState(null);
   const [produtos, setProdutos] = useState([]);
+  const [produtoEditado, setProdutoEditado] = useState(null);
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);

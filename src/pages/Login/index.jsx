@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import './styles.css';
 import { NavLink, useHistory } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
+import { post } from '../../services/ApiClient';
+import './styles.css';
+import IllustrationLogin from '../../assets/illustration-comp.svg';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
-import IllustrationLogin from '../../assets/illustration-comp.svg';
 import Snackbar from '../../components/Snackbar';
-import { post } from '../../services/ApiClient';
-import useAuth from '../../hooks/useAuth';
 
 export default function Login() {
   const { logar } = useAuth();
   const history = useHistory();
 
-  const [erro, setErro] = useState('');
-  const [openSnack, setOpenSnack] = useState(false);
-
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+
+  const [erro, setErro] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();

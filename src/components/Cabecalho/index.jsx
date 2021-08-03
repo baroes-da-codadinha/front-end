@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './styles.css';
 import { useHistory } from 'react-router-dom';
-import Illustration from '../../assets/illustration-3.svg';
-import Avatar from '../../assets/pizza.png';
 import useAuth from '../../hooks/useAuth';
-import Snackbar from '../Snackbar';
 import { get } from '../../services/ApiClient';
+import './styles.css';
+import Avatar from '../../assets/pizza.png';
+import Illustration from '../../assets/illustration-3.svg';
+import Snackbar from '../Snackbar';
 
 export default function Cabecalho() {
   const history = useHistory();
