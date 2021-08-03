@@ -85,13 +85,19 @@ export default function Cadastro() {
         if (senha.length < 5) {
           setErro('A senha deve ter mais de cinco caracteres.');
           setOpenSnack(true);
-          return;
+          break;
+        }
+
+        if (email.includes('@') || email.length < 3) {
+          setErro('Email inválido!');
+          setOpenSnack(true);
+          break;
         }
 
         if (senha !== confirmarSenha) {
           setErro('As senhas digitadas devem ser iguais');
           setOpenSnack(true);
-          return;
+          break;
         }
 
         if (newStep[0].status === 'concluido') {
