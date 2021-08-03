@@ -22,8 +22,6 @@ export default function Cadastro() {
     status: '',
   },
   ]);
-  const [erro, setErro] = useState('');
-  const [openSnack, setOpenSnack] = useState(false);
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -35,6 +33,9 @@ export default function Cadastro() {
   const [taxaEntrega, setTaxaEntrega] = useState('');
   const [tempoEntregaMinutos, setTempoEntregaMinutos] = useState('');
   const [valorMinimoPedido, setValorMinimoPedido] = useState('');
+
+  const [erro, setErro] = useState('');
+  const [openSnack, setOpenSnack] = useState(false);
 
   async function handleCriarconta(event) {
     event.preventDefault();
