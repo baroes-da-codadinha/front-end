@@ -88,7 +88,7 @@ export default function Cadastro() {
           break;
         }
 
-        if (!email.includes('@')) {
+        if (!email.includes('@') || email.length < 3) {
           setErro('Email inválido!');
           setOpenSnack(true);
           break;
