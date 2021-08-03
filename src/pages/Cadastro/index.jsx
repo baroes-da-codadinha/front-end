@@ -70,7 +70,7 @@ export default function Cadastro() {
     }
   }
 
-  function handleIr() {
+  function handleAvançarStep() {
     let mensagem = 'Preencha todos os itens para continuar';
     const newStep = [...step];
     for (let i = 0; i < newStep.length; i++) {
@@ -112,7 +112,7 @@ export default function Cadastro() {
     setStep(newStep);
   }
 
-  function handleVoltar() {
+  function handleVoltarStep() {
     const newStep = [...step];
     for (let i = 2; i >= 0; i--) {
       if (newStep[i].status === 'editando') {
@@ -204,7 +204,7 @@ export default function Cadastro() {
             <button
               className="cancelar"
               type="button"
-              onClick={() => handleVoltar()}
+              onClick={() => handleVoltarStep()}
               disabled={!step[1].status}
             >
               Anterior
@@ -220,7 +220,7 @@ export default function Cadastro() {
               <button
                 className="aceitar"
                 type="button"
-                onClick={() => handleIr()}
+                onClick={() => handleAvançarStep()}
               >
                 Próximo
               </button>
