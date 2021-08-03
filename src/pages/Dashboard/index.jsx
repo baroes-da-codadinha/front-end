@@ -10,8 +10,9 @@ import Snackbar from '../../components/Snackbar';
 export default function Dashboard() {
   const { token } = useAuth();
 
-  const [modal, setModal] = useState(false);
   const [produtos, setProdutos] = useState([]);
+
+  const [modal, setModal] = useState(false);
   const [produtoEditado, setProdutoEditado] = useState(null);
 
   const [erro, setErro] = useState('');
