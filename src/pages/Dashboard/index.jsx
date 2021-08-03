@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import useAuth from '../../hooks/useAuth';
+import { get } from '../../services/ApiClient';
 import './styles.css';
 import Cabecalho from '../../components/Cabecalho';
 import Modal from '../../components/Modal';
 import Card from '../../components/Card';
-import useAuth from '../../hooks/useAuth';
-import { get } from '../../services/ApiClient';
 import Snackbar from '../../components/Snackbar';
 
 export default function Dashboard() {

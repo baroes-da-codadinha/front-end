@@ -81,6 +81,12 @@ export default function Cadastro() {
           break;
         }
 
+        if (senha.length < 5) {
+          setErro('A senha deve ter mais de cinco caracteres.');
+          setOpenSnack(true);
+          return;
+        }
+
         if (senha !== confirmarSenha) {
           setErro('As senhas digitadas devem ser iguais');
           setOpenSnack(true);
