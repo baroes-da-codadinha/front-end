@@ -79,8 +79,7 @@ export default function Modal({ produto, setModal, setProdutoEditado }) {
                 >
                   Adicionar produto ao cardápio
                 </button>
-              ) }
-
+              )}
             </div>
           </form>
         </div>
