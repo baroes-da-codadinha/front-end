@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import { get } from '../../services/ApiClient';
 import './styles.css';
-import categorias from '../../assets/categorias';
 import Avatar from '../../assets/pizza.png';
 import Illustration from '../../assets/illustration-3.svg';
 import Snackbar from '../Snackbar';
@@ -12,7 +11,7 @@ export default function Cabecalho() {
   const history = useHistory();
   const { token, deslogar } = useAuth();
 
-  const [restaurante, setRestaurante] = useState('');
+  const [info, setInfo] = useState('');
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -25,7 +24,7 @@ export default function Cabecalho() {
   async function onLoad() {
     try {
       const resposta = await get('usuarios', token);
-      setRestaurante(await resposta.json());
+      setInfo(await resposta.json());
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);
@@ -39,12 +38,11 @@ export default function Cabecalho() {
   return (
     <div>
       {
-        restaurante && (
+        info && (
           <>
             <div
               className="imagem-cabecalho"
-              // style={{ backgroundImage: `url(${categorias[9].url})` }} // para testar as imagens
-              style={{ backgroundImage: `url(${categorias[restaurante.categoria_id].url})` }}
+              style={{ backgroundImage: `url(${info.url_imagem})` }}
             />
             <img className="dash-ilustracao" src={Illustration} alt="" />
             <div className="avatar-borda">
@@ -52,7 +50,7 @@ export default function Cabecalho() {
             </div>
             <div className="localizar-titulo">
               <span className="titulo sombreado">
-                {restaurante.nome}
+                {info.nome}
               </span>
               <button
                 className="botao-logout sombreado"
