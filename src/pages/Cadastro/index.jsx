@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { post } from '../../services/ApiClient';
 import './styles.css';
+import guardarPreco from '../../functions/guardarPreco';
+import conferirPreco from '../../functions/conferirPreco';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
 import InputValor from '../../components/InputValor';
@@ -30,15 +33,22 @@ export default function Cadastro() {
   const [nomeDoRestaurante, setNomeDoRestaurante] = useState('');
   const [idCategoria, setIdCategoria] = useState('');
   const [descricao, setDescricao] = useState('');
-  const [taxaEntrega, setTaxaEntrega] = useState('');
+  const [taxaEntrega, setTaxaEntrega] = useState('00,00');
   const [tempoEntregaMinutos, setTempoEntregaMinutos] = useState('');
-  const [valorMinimoPedido, setValorMinimoPedido] = useState('');
+  const [valorMinimoPedido, setValorMinimoPedido] = useState('00,00');
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   async function handleCriarconta(event) {
     event.preventDefault();
+
+    if (!conferirPreco(taxaEntrega) || !conferirPreco(valorMinimoPedido)) {
+      setErro('Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX');
+      setOpenSnack(true);
+      return;
+    }
+
     const cadastro = {
       nome,
       email,
@@ -47,9 +57,9 @@ export default function Cadastro() {
         nome: nomeDoRestaurante,
         descricao,
         idCategoria,
-        taxaEntrega,
+        taxaEntrega: guardarPreco(taxaEntrega),
         tempoEntregaMinutos,
-        valorMinimoPedido,
+        valorMinimoPedido: guardarPreco(valorMinimoPedido),
       },
     };
 
