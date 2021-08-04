@@ -11,7 +11,7 @@ export default function Cabecalho() {
   const history = useHistory();
   const { token, deslogar } = useAuth();
 
-  const [restaurante, setRestaurante] = useState('');
+  const [info, setInfo] = useState('');
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -24,7 +24,7 @@ export default function Cabecalho() {
   async function onLoad() {
     try {
       const resposta = await get('usuarios', token);
-      setRestaurante(await resposta.json());
+      setInfo(await resposta.json());
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);
@@ -37,23 +37,32 @@ export default function Cabecalho() {
 
   return (
     <div>
-      <div className="imagem-cabecalho" />
-      <img className="dash-ilustracao" src={Illustration} alt="" />
-      <div className="avatar-borda">
-        <img src={Avatar} alt="avatar" />
-      </div>
-      <div className="localizar-titulo">
-        <span className="titulo">
-          {restaurante.nome}
-        </span>
-        <button
-          className="botao-logout"
-          type="button"
-          onClick={() => logout()}
-        >
-          Logout
-        </button>
-      </div>
+      {
+        info && (
+          <>
+            <div
+              className="imagem-cabecalho"
+              style={{ backgroundImage: `url(${info.url_imagem})` }}
+            />
+            <img className="dash-ilustracao" src={Illustration} alt="" />
+            <div className="avatar-borda">
+              <img src={Avatar} alt="avatar" />
+            </div>
+            <div className="localizar-titulo">
+              <span className="titulo sombreado">
+                {info.nome}
+              </span>
+              <button
+                className="botao-logout sombreado"
+                type="button"
+                onClick={() => logout()}
+              >
+                Logout
+              </button>
+            </div>
+          </>
+        )
+      }
       <Snackbar
         erro={erro}
         openSnack={openSnack}
