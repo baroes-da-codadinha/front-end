@@ -14,11 +14,11 @@ import Snackbar from '../Snackbar';
 export default function ModalEditarProduto({ produto, setModalEditarProduto, setProdutoEditado }) {
   const { token } = useAuth();
 
-  const [nome, setNome] = useState(produto ? produto.nome : '');
-  const [descricao, setDescricao] = useState(produto ? produto.descricao : '');
-  const [preco, setPreco] = useState(produto ? produto.preco : '');
-  const [ativo, setAtivo] = useState(produto ? produto.ativo : false);
-  const [permiteObservacoes, setPermiteObservacoes] = useState(produto ? produto.permite_observacoes : false);
+  const [nome, setNome] = useState(produto.nome);
+  const [descricao, setDescricao] = useState(produto.descricao);
+  const [preco, setPreco] = useState(produto.preco);
+  const [ativo, setAtivo] = useState(produto.ativo);
+  const [permiteObservacoes, setPermiteObservacoes] = useState(produto.permite_observacoes);
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -48,11 +48,16 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
       }
 
       setModalEditarProduto(false);
-      setProdutoEditado(false);
+      setProdutoEditado(null);
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);
     }
+  }
+
+  function cancelar() {
+    setModalEditarProduto(false);
+    setProdutoEditado(null);
   }
 
   return (
@@ -100,7 +105,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
               <button
                 className="cancelar"
                 type="button"
-                onClick={() => setModalEditarProduto(false)}
+                onClick={() => cancelar()}
               >
                 Cancelar
               </button>
