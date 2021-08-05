@@ -67,7 +67,7 @@ export default function Card({ produto, setModalEditarProduto, setProdutoEditado
             <span className="card-texto">{descricao}</span>
             <div className="card-preco">{precoFormatado.current}</div>
           </div>
-          <div className="flex-column">
+          <div className="imagem-card">
             <img src={Pizza} alt={nome} />
           </div>
         </div>
