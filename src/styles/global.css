@@ -2,6 +2,7 @@
 @import './buttons.css';
 @import './text.css';
 @import './inputs.css';
+@import './modais.css';
 @font-face {
     font-family: "Baloo";
     src: local("Baloo"), url("../assets/fonts/Baloo-Regular.ttf") format("truetype");
