@@ -25,6 +25,7 @@ export default function Cabecalho() {
     try {
       const resposta = await get('usuarios', token);
       setInfo(await resposta.json());
+      console.log(info);
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);
@@ -42,7 +43,7 @@ export default function Cabecalho() {
           <>
             <div
               className="imagem-cabecalho"
-              style={{ backgroundImage: `url(${info.url_imagem})` }}
+              style={{ backgroundImage: `url(${info.categoria.url_imagem})` }}
             />
             <img className="dash-ilustracao" src={Illustration} alt="" />
             <div className="avatar-borda">
@@ -50,7 +51,7 @@ export default function Cabecalho() {
             </div>
             <div className="localizar-titulo">
               <span className="titulo sombreado">
-                {info.nome}
+                {info.restaurante.nome}
               </span>
               <button
                 className="botao-logout sombreado"
