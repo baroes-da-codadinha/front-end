@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
@@ -15,8 +14,7 @@ import Snackbar from '../Snackbar';
 
 export default function ModalEditarProduto({ produto, setModalEditarProduto, setProdutoEditado }) {
   const { token } = useAuth();
-  let precoEditado = produto.preco.toString();
-  precoEditado = editarPreco(precoEditado);
+  const precoEditado = editarPreco(produto.preco);
 
   const [nome, setNome] = useState(produto.nome);
   const [descricao, setDescricao] = useState(produto.descricao);
@@ -31,7 +29,13 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
     event.preventDefault();
 
     if (!conferirPreco(preco)) {
-      setErro('Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX');
+      setErro('Valor inválido. Os valor informados deve ter o formato: R$ XX,XX');
+      setOpenSnack(true);
+      return;
+    }
+
+    if (!nome) {
+      setErro('Nome é um campo obrigatório.');
       setOpenSnack(true);
       return;
     }
@@ -45,7 +49,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
     };
 
     try {
-      const resposta = await put('produtos', editarProduto, token);
+      const resposta = await put(`produtos/${produto.id}`, editarProduto, token);
 
       if (!resposta.ok) {
         const mensagem = await resposta.json();
@@ -57,6 +61,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
 
       setModalEditarProduto(false);
       setProdutoEditado(null);
+      window.location.reload();
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);

@@ -18,7 +18,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
   const [preco, setPreco] = useState('00,00');
-  const [ativo, setAtivo] = useState(false);
+  const [ativo, setAtivo] = useState(true);
   const [permiteObservacoes, setPermiteObservacoes] = useState(false);
 
   const [erro, setErro] = useState('');
@@ -28,7 +28,13 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
     event.preventDefault();
 
     if (!conferirPreco(preco)) {
-      setErro('Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX');
+      setErro('Valor inválido. Os valor informados deve ter o formato: R$ XX,XX');
+      setOpenSnack(true);
+      return;
+    }
+
+    if (!nome) {
+      setErro('Nome é um campo obrigatório.');
       setOpenSnack(true);
       return;
     }
@@ -44,9 +50,6 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
     try {
       const resposta = await post('produtos', novoProduto, token);
 
-      // eslint-disable-next-line no-console
-      console.log(resposta.ok);
-
       if (!resposta.ok) {
         const mensagem = await resposta.json();
 
@@ -57,6 +60,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
 
       setModalCadastrarProduto(false);
       setCadastroProduto(false);
+      window.location.reload();
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);
