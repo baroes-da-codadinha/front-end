@@ -100,10 +100,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
               <button
                 className="cancelar"
                 type="button"
-                onClick={() => {
-                  setModalEditarProduto(false);
-                  setProdutoEditado(null);
-                }}
+                onClick={() => setModalEditarProduto(false)}
               >
                 Cancelar
               </button>
