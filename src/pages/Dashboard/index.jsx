@@ -82,7 +82,7 @@ export default function Dashboard() {
           <div className="container-produtos">
             {
               produtos.map((produto) => (
-                <Card produto={produto} setModalEditarProduto={setModalEditarProduto} setProdutoEditado={setProdutoEditado} />
+                <Card key={produto.id} produto={produto} setModalEditarProduto={setModalEditarProduto} setProdutoEditado={setProdutoEditado} />
               ))
             }
           </div>
