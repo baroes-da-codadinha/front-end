@@ -123,7 +123,6 @@ export default function ModalCadastrarProduto({ produto, setModalCadastrarProdut
                   value={permiteObservacoes}
                   setValue={setPermiteObservacoes}
                 />
-
               </div>
               <div className="modal-colunas" />
               <InputImagem />
