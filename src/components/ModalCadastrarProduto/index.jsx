@@ -20,6 +20,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
   const [preco, setPreco] = useState('00,00');
   const [ativo, setAtivo] = useState(true);
   const [permiteObservacoes, setPermiteObservacoes] = useState(false);
+  const [urlImagem, setUrlImagem] = useState('');
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -45,6 +46,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
       preco: guardarPreco(preco),
       ativo,
       permiteObservacoes,
+      urlImagem,
     };
 
     try {
@@ -105,7 +107,10 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
                 />
               </div>
               <div className="modal-colunas" />
-              <InputImagem />
+              <InputImagem
+                value={urlImagem}
+                setValue={setUrlImagem}
+              />
             </div>
             <div className="produtos-botoes">
               <button

@@ -21,6 +21,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
   const [preco, setPreco] = useState(precoEditado);
   const [ativo, setAtivo] = useState(produto.ativo);
   const [permiteObservacoes, setPermiteObservacoes] = useState(produto.permite_observacoes);
+  const [urlImagem, setUrlImagem] = useState(produto.url_imagem);
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -112,7 +113,10 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
 
               </div>
               <div className="modal-colunas" />
-              <InputImagem />
+              <InputImagem
+                value={urlImagem}
+                setValue={setUrlImagem}
+              />
             </div>
             <div className="produtos-botoes">
               <button

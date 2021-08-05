@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import './styles.css';
-import Pizza from '../../assets/pizza.png';
 import Snackbar from '../Snackbar';
 import editarPreco from '../../functions/editarPreco';
 import { del } from '../../services/ApiClient';
@@ -9,7 +8,9 @@ import useAuth from '../../hooks/useAuth';
 export default function Card({ produto, setModalEditarProduto, setProdutoEditado }) {
   const { token } = useAuth();
 
-  const { nome, preco, descricao } = produto;
+  const {
+    id, nome, preco, descricao, url_imagem: urlImagem,
+  } = produto;
   const [editando, setEditando] = useState(false);
   const novoPreco = preco.toString();
   const precoFormatado = useRef(editarPreco(novoPreco, true));
@@ -18,7 +19,6 @@ export default function Card({ produto, setModalEditarProduto, setProdutoEditado
   const [openSnack, setOpenSnack] = useState(false);
 
   async function excluirProduto() {
-    const { id } = produto;
     try {
       const resposta = await del(`produtos/${id}`, token);
 
@@ -38,25 +38,25 @@ export default function Card({ produto, setModalEditarProduto, setProdutoEditado
     <>
       <div style={{ position: 'relative' }}>
         {editando && (
-        <div className="botoes-edicao">
-          <button
-            className="excluir"
-            type="button"
-            onClick={() => excluirProduto(produto)}
-          >
-            Excluir produto do catálogo
-          </button>
-          <button
-            className="aceitar"
-            type="button"
-            onClick={() => {
-              setModalEditarProduto(true);
-              setProdutoEditado(produto);
-            }}
-          >
-            Editar produto
-          </button>
-        </div>
+          <div className="botoes-edicao">
+            <button
+              className="excluir"
+              type="button"
+              onClick={() => excluirProduto(produto)}
+            >
+              Excluir produto do catálogo
+            </button>
+            <button
+              className="aceitar"
+              type="button"
+              onClick={() => {
+                setModalEditarProduto(true);
+                setProdutoEditado(produto);
+              }}
+            >
+              Editar produto
+            </button>
+          </div>
         )}
         <div
           className={editando ? 'card blur' : 'card'}
@@ -68,7 +68,7 @@ export default function Card({ produto, setModalEditarProduto, setProdutoEditado
             <div className="card-preco">{precoFormatado.current}</div>
           </div>
           <div className="imagem-card">
-            <img src={Pizza} alt={nome} />
+            <img src={urlImagem} alt={nome} />
           </div>
         </div>
       </div>
