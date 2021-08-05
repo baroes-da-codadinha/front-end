@@ -17,7 +17,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
 
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
-  const [preco, setPreco] = useState('');
+  const [preco, setPreco] = useState('00,00');
   const [ativo, setAtivo] = useState(false);
   const [permiteObservacoes, setPermiteObservacoes] = useState(false);
 
@@ -63,38 +63,6 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
     }
   }
 
-  // async function atualizarProduto(event) {
-  //   event.preventDefault();
-  //   const editarProduto = {
-  //     nome,
-  //     descricao,
-  //     preco: guardarPreco(preco),
-  //     ativar,
-  //     permiteObservacoes,
-  //   };
-
-  //   // eslint-disable-next-line no-console
-  //   console.log(editarProduto);
-
-  //   try {
-  //     const resposta = await put('produtos', editarProduto, token);
-
-  //     if (!resposta.ok) {
-  //       const mensagem = await resposta.json();
-
-  //       setErro(mensagem);
-  //       setOpenSnack(true);
-  //       return;
-  //     }
-
-  //     setModal(false);
-  //     setProdutoEditado(false);
-  //   } catch (error) {
-  //     setErro(error.message);
-  //     setOpenSnack(true);
-  //   }
-  // }
-
   return (
     <>
       <div className="modal">
@@ -139,10 +107,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
               <button
                 className="cancelar"
                 type="button"
-                onClick={() => {
-                  setModalCadastrarProduto(false);
-                  setCadastroProduto(null);
-                }}
+                onClick={() => setModalCadastrarProduto(false)}
               >
                 Cancelar
               </button>
