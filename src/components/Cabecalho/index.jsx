@@ -25,7 +25,6 @@ export default function Cabecalho() {
     try {
       const resposta = await get('usuarios', token);
       setInfo(await resposta.json());
-      console.log(info);
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);
