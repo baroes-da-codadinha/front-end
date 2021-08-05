@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
 import './styles.css';
+import editarPreco from '../../functions/editarPreco';
+import conferirPreco from '../../functions/conferirPreco';
 import guardarPreco from '../../functions/guardarPreco';
 import InputImagem from '../InputImagem';
 import InputTexto from '../InputTexto';
@@ -13,10 +15,12 @@ import Snackbar from '../Snackbar';
 
 export default function ModalEditarProduto({ produto, setModalEditarProduto, setProdutoEditado }) {
   const { token } = useAuth();
+  let precoEditado = produto.preco.toString();
+  precoEditado = editarPreco(precoEditado);
 
   const [nome, setNome] = useState(produto.nome);
   const [descricao, setDescricao] = useState(produto.descricao);
-  const [preco, setPreco] = useState(produto.preco);
+  const [preco, setPreco] = useState(precoEditado);
   const [ativo, setAtivo] = useState(produto.ativo);
   const [permiteObservacoes, setPermiteObservacoes] = useState(produto.permite_observacoes);
 
@@ -25,6 +29,13 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
 
   async function atualizarProduto(event) {
     event.preventDefault();
+
+    if (!conferirPreco(preco)) {
+      setErro('Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX');
+      setOpenSnack(true);
+      return;
+    }
+
     const editarProduto = {
       nome,
       descricao,
@@ -32,9 +43,6 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
       ativo,
       permiteObservacoes,
     };
-
-    // eslint-disable-next-line no-console
-    console.log(editarProduto);
 
     try {
       const resposta = await put('produtos', editarProduto, token);
