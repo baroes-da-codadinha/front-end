@@ -9,3 +9,11 @@ const produto = {
     ativo: false,
     permite_observacoes: true,
   };
+
+  Senha do supabase:
+
+  Cubosfood - Images
+  baroesdacodadinha
+
+  https://fhfmgjnasgrddtfwgquj.supabase.co
+  fc9d297d-e702-45fc-b2b6-bfc45dd01727

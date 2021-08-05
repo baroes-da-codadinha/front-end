@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { post } from '../../services/ApiClient';
+import conferirPreco from '../../functions/conferirPreco';
 import './styles.css';
 import guardarPreco from '../../functions/guardarPreco';
 import InputImagem from '../InputImagem';
@@ -11,20 +12,27 @@ import Textarea from '../Textarea';
 import Toggle from '../Toggle';
 import Snackbar from '../Snackbar';
 
-export default function ModalCadastrarProduto({ produto, setModalCadastrarProduto, setCadastroProduto }) {
+export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCadastroProduto }) {
   const { token } = useAuth();
 
-  const [nome, setNome] = useState(produto ? produto.nome : '');
-  const [descricao, setDescricao] = useState(produto ? produto.descricao : '');
-  const [preco, setPreco] = useState(produto ? produto.preco : '');
-  const [ativo, setAtivo] = useState(produto ? produto.ativo : false);
-  const [permiteObservacoes, setPermiteObservacoes] = useState(produto ? produto.permite_observacoes : false);
+  const [nome, setNome] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [preco, setPreco] = useState('');
+  const [ativo, setAtivo] = useState(false);
+  const [permiteObservacoes, setPermiteObservacoes] = useState(false);
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   async function criarProduto(event) {
     event.preventDefault();
+
+    if (!conferirPreco(preco)) {
+      setErro('Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX');
+      setOpenSnack(true);
+      return;
+    }
+
     const novoProduto = {
       nome,
       descricao,
