@@ -1,10 +1,12 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { get } from '../../services/ApiClient';
 import './styles.css';
 import Cabecalho from '../../components/Cabecalho';
 import Card from '../../components/Card';
-import Modal from '../../components/Modal';
+import ModalCadastrarProduto from '../../components/ModalCadastrarProduto';
+import ModalEditarProduto from '../../components/ModalEditarProduto';
 import Snackbar from '../../components/Snackbar';
 
 export default function Dashboard() {
@@ -12,8 +14,10 @@ export default function Dashboard() {
 
   const [produtos, setProdutos] = useState([]);
 
-  const [modal, setModal] = useState(false);
+  const [modalCadastrarProduto, setModalCadastrarProduto] = useState(false);
+  const [modalEditarProduto, setModalEditarProduto] = useState(false);
   const [produtoEditado, setProdutoEditado] = useState(null);
+  const [cadastroProduto, setCadastroProduto] = useState(null);
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -42,14 +46,21 @@ export default function Dashboard() {
 
   return (
     <div>
-      {modal && (
-      <Modal
+      {modalCadastrarProduto && (
+      <ModalCadastrarProduto
+        produto={cadastroProduto}
+        setModalCadastrarProduto={setModalCadastrarProduto}
+        setProdutoEditado={setCadastroProduto}
+      />
+      )}
+      {modalEditarProduto && (
+      <ModalEditarProduto
         produto={produtoEditado}
-        setModal={setModal}
+        setModalEditarProduto={setModalEditarProduto}
         setProdutoEditado={setProdutoEditado}
       />
       )}
-      <div className={modal && 'blurry'}>
+      <div className={modalCadastrarProduto && 'blurry'}>
         <Cabecalho />
         <div className={`sub-cabecalho ${!produtos && 'vazio'}`}>
           <div>
@@ -62,7 +73,7 @@ export default function Dashboard() {
           <button
             className="aceitar"
             type="button"
-            onClick={() => setModal(true)}
+            onClick={() => setModalCadastrarProduto(true)}
           >
             Adicionar produto ao cardápio
           </button>
@@ -71,7 +82,7 @@ export default function Dashboard() {
           <div className="container-produtos">
             {
               produtos.map((produto) => (
-                <Card produto={produto} setModal={setModal} setProdutoEditado={setProdutoEditado} />
+                <Card produto={produto} setModalEditarProduto={setModalEditarProduto} setProdutoEditado={setProdutoEditado} />
               ))
             }
           </div>

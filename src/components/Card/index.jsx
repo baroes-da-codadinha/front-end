@@ -6,7 +6,7 @@ import editarPreco from '../../functions/editarPreco';
 import { del } from '../../services/ApiClient';
 import useAuth from '../../hooks/useAuth';
 
-export default function Card({ produto, setModal, setProdutoEditado }) {
+export default function Card({ produto, setModalEditarProduto, setProdutoEditado }) {
   const { token } = useAuth();
 
   const { nome, preco, descricao } = produto;
@@ -50,7 +50,7 @@ export default function Card({ produto, setModal, setProdutoEditado }) {
             className="aceitar"
             type="button"
             onClick={() => {
-              setModal(true);
+              setModalEditarProduto(true);
               setProdutoEditado(produto);
             }}
           >
