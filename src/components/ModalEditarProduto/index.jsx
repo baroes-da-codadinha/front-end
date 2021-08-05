@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
@@ -59,6 +60,8 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
         return;
       }
 
+      console.log(resposta);
+
       setModalEditarProduto(false);
       setProdutoEditado(null);
       window.location.reload();
@@ -67,6 +70,15 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
       setOpenSnack(true);
     }
   }
+
+  // async function ativarProduto(event) {
+  //   event.preventDefault();
+
+  // }
+
+  // async function desativarProduto(event) {
+  //   event.preventDefault();
+  // }
 
   function cancelar() {
     setModalEditarProduto(false);
