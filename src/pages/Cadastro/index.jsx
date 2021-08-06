@@ -11,6 +11,7 @@ import InputValor from '../../components/InputValor';
 import Snackbar from '../../components/Snackbar';
 import Stepper from '../../components/Stepper';
 import Textarea from '../../components/Textarea';
+import InputSelect from '../../components/InputSelect';
 
 export default function Cadastro() {
   const history = useHistory();
@@ -185,8 +186,9 @@ export default function Cadastro() {
                 value={nomeDoRestaurante}
                 setValue={setNomeDoRestaurante}
               />
-              <InputTexto
+              <InputSelect
                 label="Categoria do restaurante"
+                placeholder="Selecione a categoria"
                 value={idCategoria}
                 setValue={setIdCategoria}
               />
