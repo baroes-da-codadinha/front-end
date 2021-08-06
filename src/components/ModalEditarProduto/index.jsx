@@ -1,11 +1,13 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
+import imageToBase64 from 'image-to-base64/browser';
 import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
 import './styles.css';
 import editarPreco from '../../functions/editarPreco';
 import conferirPreco from '../../functions/conferirPreco';
 import guardarPreco from '../../functions/guardarPreco';
+import uploadImagem from '../../functions/uploadImagem';
 import InputImagem from '../InputImagem';
 import InputTexto from '../InputTexto';
 import InputValor from '../InputValor';
@@ -42,12 +44,28 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
       return;
     }
 
+    try {
+      const base64Imagem = await imageToBase64(urlImagem);
+
+      const imagemSalva = {
+        nome: `produtos/${produto.restaurante_id}/${nome}`,
+        imagem: base64Imagem,
+      };
+      const novaUrl = await uploadImagem(imagemSalva, token);
+
+      setUrlImagem(novaUrl);
+    } catch (error) {
+      setErro(error.message);
+      setOpenSnack(true);
+    }
+
     const editarProduto = {
       nome,
       descricao,
       preco: guardarPreco(preco),
       ativo,
       permiteObservacoes,
+      urlImagem,
     };
 
     try {
@@ -60,8 +78,6 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
         setOpenSnack(true);
         return;
       }
-
-      console.log(resposta);
 
       setModalEditarProduto(false);
       setProdutoEditado(null);
@@ -126,6 +142,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
               </div>
               <div className="modal-colunas" />
               <InputImagem
+                produto={produto}
                 value={urlImagem}
                 setValue={setUrlImagem}
               />

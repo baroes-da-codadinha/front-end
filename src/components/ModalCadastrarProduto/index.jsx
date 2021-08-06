@@ -1,9 +1,11 @@
 /* eslint-disable max-len */
 import React, { useState } from 'react';
+import imageToBase64 from 'image-to-base64/browser';
 import useAuth from '../../hooks/useAuth';
-import { post } from '../../services/ApiClient';
+import { get, post } from '../../services/ApiClient';
 import conferirPreco from '../../functions/conferirPreco';
 import './styles.css';
+import uploadImagem from '../../functions/uploadImagem';
 import guardarPreco from '../../functions/guardarPreco';
 import InputImagem from '../InputImagem';
 import InputTexto from '../InputTexto';
@@ -40,6 +42,25 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
       return;
     }
 
+    try {
+      const resposta = await (await get('usuarios', token)).json();
+
+      const base64Imagem = await imageToBase64(urlImagem);
+
+      const imagemSalva = {
+        nome: `produtos/${resposta.restaurante.id}/${nome}`,
+        imagem: base64Imagem,
+      };
+
+      const novaUrl = uploadImagem(imagemSalva, token);
+      console.log(novaUrl);
+      setUrlImagem(novaUrl);
+      // salvando a imagem, sem mandar no set;
+    } catch (error) {
+      setErro(error.message);
+      setOpenSnack(true);
+    }
+
     const novoProduto = {
       nome,
       descricao,
@@ -62,7 +83,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
 
       setModalCadastrarProduto(false);
       setCadastroProduto(false);
-      window.location.reload();
+      // window.location.reload();
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);
