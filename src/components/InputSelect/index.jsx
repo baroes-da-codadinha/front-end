@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './styles.css';
 import SetaSelect from '../../assets/select-seta.svg';
+import categorias from '../../assets/categorias';
 
 export default function InputSelect({
   label, placeholder, value, setValue,
@@ -9,6 +10,11 @@ export default function InputSelect({
 
   function ativarDrop() {
     setDrop(!drop);
+  }
+
+  function selecionarCategoria(item) {
+    setValue(item);
+    setDrop(false);
   }
 
   return (
@@ -20,14 +26,20 @@ export default function InputSelect({
         placeholder={placeholder}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        disabled
+        onClick={() => ativarDrop()}
       />
 
       { drop && (
         <div className="select-drop">
           {
-          ['Diversos ', 'Lanches ', 'Carnes ', 'Massas ', 'Pizzas ', 'Japonesa ', 'Chinesa ', 'Mexicano ', 'Brasileira ', 'Italiana ', 'Árabe'].map((item) => (
+          categorias.map((item) => (
             <>
-              <div key={item} className="drop-itens">
+              <div
+                key={item}
+                className="drop-itens"
+                onClick={() => selecionarCategoria(item)}
+              >
                 {item}
               </div>
             </>

@@ -5,6 +5,7 @@ import { post } from '../../services/ApiClient';
 import './styles.css';
 import guardarPreco from '../../functions/guardarPreco';
 import conferirPreco from '../../functions/conferirPreco';
+import categorias from '../../assets/categorias';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
 import InputValor from '../../components/InputValor';
@@ -57,7 +58,7 @@ export default function Cadastro() {
       restaurante: {
         nome: nomeDoRestaurante,
         descricao,
-        idCategoria,
+        idCategoria: (categorias.indexOf(idCategoria) + 1),
         taxaEntrega: guardarPreco(taxaEntrega),
         tempoEntregaMinutos,
         valorMinimoPedido: guardarPreco(valorMinimoPedido),
@@ -74,6 +75,8 @@ export default function Cadastro() {
         setOpenSnack(true);
         return;
       }
+
+      console.log(cadastro);
 
       history.push('/');
     } catch (error) {
