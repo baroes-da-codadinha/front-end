@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import imageToBase64 from 'image-to-base64/browser';
 import useAuth from '../../hooks/useAuth';
 import { get, post } from '../../services/ApiClient';
-import conferirPreco from '../../functions/conferirPreco';
 import './styles.css';
-import uploadImagem from '../../functions/uploadImagem';
+import conferirPreco from '../../functions/conferirPreco';
 import guardarPreco from '../../functions/guardarPreco';
+import uploadImagem from '../../functions/uploadImagem';
 import InputImagem from '../InputImagem';
 import InputTexto from '../InputTexto';
 import InputValor from '../InputValor';
@@ -31,7 +31,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
     event.preventDefault();
 
     if (!conferirPreco(preco)) {
-      setErro('Valor inválido. Os valor informados deve ter o formato: R$ XX,XX');
+      setErro('Valor inválido. O valor informado deve ter o formato: R$ XX,XX');
       setOpenSnack(true);
       return;
     }
@@ -56,8 +56,10 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
 
       const base64Imagem = await imageToBase64(urlImagem);
 
+      const idImagem = Math.floor(Math.random() * 10000);
+
       const imagemSalva = {
-        nome: `produtos/${infoUsuario.restaurante.id}/${nome}`,
+        nome: `produtos/${infoUsuario.restaurante.id}/${idImagem}`,
         imagem: base64Imagem,
       };
 

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import imageToBase64 from 'image-to-base64/browser';
 import useAuth from '../../hooks/useAuth';
-import { get, put } from '../../services/ApiClient';
+import { put } from '../../services/ApiClient';
 import './styles.css';
 import editarPreco from '../../functions/editarPreco';
 import conferirPreco from '../../functions/conferirPreco';
@@ -33,7 +33,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
     event.preventDefault();
 
     if (!conferirPreco(preco)) {
-      setErro('Valor inválido. Os valor informados deve ter o formato: R$ XX,XX');
+      setErro('Valor inválido. O valo informado deve ter o formato: R$ XX,XX');
       setOpenSnack(true);
       return;
     }
@@ -54,12 +54,12 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
     };
 
     try {
-      const infoUsuario = await (await get('usuarios', token)).json();
-
       const base64Imagem = await imageToBase64(urlImagem);
 
+      const idImagem = Math.floor(Math.random() * 10000);
+
       const imagemSalva = {
-        nome: `produtos/${infoUsuario.restaurante.id}/${nome}`,
+        nome: `produtos/${produto.restaurante_id}/${idImagem}`,
         imagem: base64Imagem,
       };
 
