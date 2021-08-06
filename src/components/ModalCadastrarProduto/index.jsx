@@ -42,25 +42,6 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
       return;
     }
 
-    try {
-      const resposta = await (await get('usuarios', token)).json();
-
-      const base64Imagem = await imageToBase64(urlImagem);
-
-      const imagemSalva = {
-        nome: `produtos/${resposta.restaurante.id}/${nome}`,
-        imagem: base64Imagem,
-      };
-
-      const novaUrl = uploadImagem(imagemSalva, token);
-      console.log(novaUrl);
-      setUrlImagem(novaUrl);
-      // salvando a imagem, sem mandar no set;
-    } catch (error) {
-      setErro(error.message);
-      setOpenSnack(true);
-    }
-
     const novoProduto = {
       nome,
       descricao,
@@ -71,6 +52,19 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
     };
 
     try {
+      const infoUsuario = await (await get('usuarios', token)).json();
+
+      const base64Imagem = await imageToBase64(urlImagem);
+
+      const imagemSalva = {
+        nome: `produtos/${infoUsuario.restaurante.id}/${nome}`,
+        imagem: base64Imagem,
+      };
+
+      const novaUrl = await uploadImagem(imagemSalva, token);
+
+      novoProduto.urlImagem = novaUrl;
+
       const resposta = await post('produtos', novoProduto, token);
 
       if (!resposta.ok) {
@@ -83,7 +77,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
 
       setModalCadastrarProduto(false);
       setCadastroProduto(false);
-      // window.location.reload();
+      window.location.reload();
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);

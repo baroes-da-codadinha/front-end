@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import imageToBase64 from 'image-to-base64/browser';
 import useAuth from '../../hooks/useAuth';
-import { put } from '../../services/ApiClient';
+import { get, put } from '../../services/ApiClient';
 import './styles.css';
 import editarPreco from '../../functions/editarPreco';
 import conferirPreco from '../../functions/conferirPreco';
@@ -44,21 +44,6 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
       return;
     }
 
-    try {
-      const base64Imagem = await imageToBase64(urlImagem);
-
-      const imagemSalva = {
-        nome: `produtos/${produto.restaurante_id}/${nome}`,
-        imagem: base64Imagem,
-      };
-      const novaUrl = await uploadImagem(imagemSalva, token);
-
-      setUrlImagem(novaUrl);
-    } catch (error) {
-      setErro(error.message);
-      setOpenSnack(true);
-    }
-
     const editarProduto = {
       nome,
       descricao,
@@ -69,6 +54,19 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
     };
 
     try {
+      const infoUsuario = await (await get('usuarios', token)).json();
+
+      const base64Imagem = await imageToBase64(urlImagem);
+
+      const imagemSalva = {
+        nome: `produtos/${infoUsuario.restaurante.id}/${nome}`,
+        imagem: base64Imagem,
+      };
+
+      const novaUrl = await uploadImagem(imagemSalva, token);
+
+      editarProduto.urlImagem = novaUrl;
+
       const resposta = await put(`produtos/${produto.id}`, editarProduto, token);
 
       if (!resposta.ok) {
