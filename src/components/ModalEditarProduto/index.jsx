@@ -1,11 +1,13 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
+import imageToBase64 from 'image-to-base64/browser';
 import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
 import './styles.css';
 import editarPreco from '../../functions/editarPreco';
 import conferirPreco from '../../functions/conferirPreco';
 import guardarPreco from '../../functions/guardarPreco';
+import uploadImagem from '../../functions/uploadImagem';
 import InputImagem from '../InputImagem';
 import InputTexto from '../InputTexto';
 import InputValor from '../InputValor';
@@ -31,7 +33,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
     event.preventDefault();
 
     if (!conferirPreco(preco)) {
-      setErro('Valor inválido. Os valor informados deve ter o formato: R$ XX,XX');
+      setErro('Valor inválido. O valo informado deve ter o formato: R$ XX,XX');
       setOpenSnack(true);
       return;
     }
@@ -48,9 +50,23 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
       preco: guardarPreco(preco),
       ativo,
       permiteObservacoes,
+      urlImagem,
     };
 
     try {
+      const base64Imagem = await imageToBase64(urlImagem);
+
+      const idImagem = Math.floor(Math.random() * 10000);
+
+      const imagemSalva = {
+        nome: `produtos/${produto.restaurante_id}/${idImagem}`,
+        imagem: base64Imagem,
+      };
+
+      const novaUrl = await uploadImagem(imagemSalva, token);
+
+      editarProduto.urlImagem = novaUrl;
+
       const resposta = await put(`produtos/${produto.id}`, editarProduto, token);
 
       if (!resposta.ok) {
@@ -60,8 +76,6 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
         setOpenSnack(true);
         return;
       }
-
-      console.log(resposta);
 
       setModalEditarProduto(false);
       setProdutoEditado(null);
@@ -126,6 +140,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
               </div>
               <div className="modal-colunas" />
               <InputImagem
+                produto={produto}
                 value={urlImagem}
                 setValue={setUrlImagem}
               />

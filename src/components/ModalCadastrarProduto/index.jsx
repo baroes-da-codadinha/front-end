@@ -1,10 +1,12 @@
 /* eslint-disable max-len */
 import React, { useState } from 'react';
+import imageToBase64 from 'image-to-base64/browser';
 import useAuth from '../../hooks/useAuth';
-import { post } from '../../services/ApiClient';
-import conferirPreco from '../../functions/conferirPreco';
+import { get, post } from '../../services/ApiClient';
 import './styles.css';
+import conferirPreco from '../../functions/conferirPreco';
 import guardarPreco from '../../functions/guardarPreco';
+import uploadImagem from '../../functions/uploadImagem';
 import InputImagem from '../InputImagem';
 import InputTexto from '../InputTexto';
 import InputValor from '../InputValor';
@@ -29,7 +31,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
     event.preventDefault();
 
     if (!conferirPreco(preco)) {
-      setErro('Valor inválido. Os valor informados deve ter o formato: R$ XX,XX');
+      setErro('Valor inválido. O valor informado deve ter o formato: R$ XX,XX');
       setOpenSnack(true);
       return;
     }
@@ -50,6 +52,21 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
     };
 
     try {
+      const infoUsuario = await (await get('usuarios', token)).json();
+
+      const base64Imagem = await imageToBase64(urlImagem);
+
+      const idImagem = Math.floor(Math.random() * 10000);
+
+      const imagemSalva = {
+        nome: `produtos/${infoUsuario.restaurante.id}/${idImagem}`,
+        imagem: base64Imagem,
+      };
+
+      const novaUrl = await uploadImagem(imagemSalva, token);
+
+      novoProduto.urlImagem = novaUrl;
+
       const resposta = await post('produtos', novoProduto, token);
 
       if (!resposta.ok) {
