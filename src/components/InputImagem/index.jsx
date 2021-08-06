@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/button-has-type */
-import React, { useCallback } from 'react';
+import React from 'react';
 import imageToBase64 from 'image-to-base64/browser';
 import { useDropzone } from 'react-dropzone';
 import useAuth from '../../hooks/useAuth';
@@ -22,31 +22,26 @@ export default function InputImagem({ value, setValue }) {
     }
   }
 
-  const onDrop = useCallback((file) => {
-    imageToBase64(file)
-      .then(
-        (response) => {
-          const salvarImagem = {
-            nome: 'teste/teste',
-            imagem: response,
-          };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: 'image/*',
+    onDrop: (acceptedFiles) => {
+      acceptedFiles.map((file) => Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      }));
+      imageToBase64(acceptedFiles[0].preview).then((data) => {
+        const body = {
+          nome: 'teste/mais_um',
+          imagem: data,
+        };
 
-          uploadImagem(salvarImagem)
-            .then((data) => {
-              setValue(data);
-              console.log(data);
-              console.log(value);
-            });
-        },
-      )
-      .catch(
-        (error) => {
-          console.log(error);
-        },
-      );
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+        uploadImagem(body)
+          .then((response) => {
+            setValue(response);
+            console.log(response);
+          });
+      });
+    },
+  });
 
   return (
     <div className="placeholder-base" {...getRootProps()}>
