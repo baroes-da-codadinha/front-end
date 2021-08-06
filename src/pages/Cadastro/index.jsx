@@ -76,8 +76,6 @@ export default function Cadastro() {
         return;
       }
 
-      console.log(cadastro);
-
       history.push('/');
     } catch (error) {
       setErro(error.message);

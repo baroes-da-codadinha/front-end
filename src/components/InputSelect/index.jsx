@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { useState } from 'react';
 import './styles.css';
 import SetaSelect from '../../assets/select-seta.svg';
@@ -20,15 +21,19 @@ export default function InputSelect({
   return (
     <div className="flex-column input-select">
       <label htmlFor="select">{label}</label>
-      <input
-        id="select"
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        disabled
+      <button
+        type="button"
         onClick={() => ativarDrop()}
-      />
+      >
+        <input
+          id="select"
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          disabled
+        />
+      </button>
 
       { drop && (
         <div className="select-drop">

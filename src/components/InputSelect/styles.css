@@ -2,13 +2,34 @@
     position: relative;
 }
 
+.input-select button{
+    all: unset;
+    width:100%;
+    cursor: pointer;
+}
+
+.input-select button:focus{
+    border: 2px solid black;
+    border-radius: 0.7rem;
+    box-sizing: border-box;
+}
+
+.input-select input{
+    width:100%;
+    cursor: pointer;
+}
+
+
+.input-select input:disabled{
+    background-color:white;
+}
+
 .select-seta {
     position: absolute;
-    top: 4rem;
+    top: 4.1rem;
     right: 1.5rem;
     z-index: 4;
     cursor: pointer;
-    margin-left: 300px;
 }
 
 .baixo {
@@ -18,7 +39,7 @@
 .select-drop{
     position: absolute;
     z-index: 13;
-    top: 11vh;
+    top: 12vh;
     display: flex;
     flex-direction: column;
     border: 1px solid #BEBEBE;
