@@ -20,6 +20,9 @@
 
 .avatar-borda {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 2;
     top: 18vh;
     left: 8vw;
@@ -29,6 +32,12 @@
     border-radius: 50%;
     border: solid 0.6rem var(--branco);
     overflow: hidden;
+    cursor: pointer;
+}
+
+.avatar{
+    height: 17.6rem;
+    width: 17.6rem;
 }
 
 .localizar-titulo{
@@ -54,5 +63,5 @@
 }
 
 .sombreado {
-    text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5);
 }

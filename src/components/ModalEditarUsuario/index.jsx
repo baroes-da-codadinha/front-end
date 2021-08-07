@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
 import './styles.css';
+import categorias from '../../assets/categorias';
 import editarValorMinimo from '../../functions/editarValorMinimo';
 import conferirValorMinimo from '../../functions/conferirValorMinimo';
 import guardarValorMinimo from '../../functions/guardarValorMinimo';
@@ -10,6 +11,7 @@ import editarTaxaEntrega from '../../functions/editarTaxaEntrega';
 import guardarTaxaEntrega from '../../functions/guardarTaxaEntrega';
 import InputImagem from '../InputImagem';
 import InputSenha from '../InputSenha';
+import InputSelect from '../InputSelect';
 import InputTexto from '../InputTexto';
 import InputValor from '../InputValor';
 import Textarea from '../Textarea';
@@ -19,10 +21,13 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
   const { token } = useAuth();
   const valorMinimoEditado = editarValorMinimo(dadosUsuario.restaurante.valor_minimo_pedido);
   const taxaEntregaEditado = editarTaxaEntrega(dadosUsuario.restaurante.taxa_entrega);
+  const indexCategoria = dadosUsuario.restaurante.categoria_id - 1;
+  const categoriaEditada = categorias[indexCategoria];
 
   const [nome, setNome] = useState(dadosUsuario.usuario.nome);
   const [email, setEmail] = useState(dadosUsuario.usuario.email);
   const [nomeRestaurante, setNomeRestaurante] = useState(dadosUsuario.restaurante.nome);
+  const [idCategoria, setIdCategoria] = useState(categoriaEditada);
   const [descricao, setDescricao] = useState(dadosUsuario.restaurante.descricao);
   const [taxaEntrega, setTaxaEntrega] = useState(taxaEntregaEditado);
   const [tempoEntrega, setTempoEntrega] = useState(dadosUsuario.restaurante.tempo_entrega);
@@ -56,6 +61,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
       restaurante: {
         nome: nomeRestaurante,
         descricao,
+        idCategoria: (categorias.indexOf(idCategoria) + 1),
         taxaEntrega: guardarTaxaEntrega(taxaEntrega),
         tempoEntregaEmMinutos: tempoEntrega,
         valorMinimoPedido: guardarValorMinimo(valorMinimo),
@@ -90,13 +96,13 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
   return (
     <>
       <div className="modal">
-        <div className="base n-usuario">
+        <div className="base n-cadastro">
           <div className="title-box">
             <span className="titulo pagina">Editar Perfil</span>
           </div>
           <form onSubmit={(event) => atualizarusuario(event)}>
             <div className="flex-row">
-              <div className="modal-colunas">
+              <div className="modal-colunas maior">
                 <InputTexto
                   label="Nome de usuário"
                   value={nome}
@@ -112,6 +118,12 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                   value={nomeRestaurante}
                   setValue={setNomeRestaurante}
                 />
+                <InputSelect
+                  label="Categoria do restaurante"
+                  placeholder="Selecione a categoria"
+                  value={idCategoria}
+                  setValue={setIdCategoria}
+                />
                 <Textarea
                   label="Descrição"
                   maxLength="80"
@@ -123,7 +135,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                   value={taxaEntrega}
                   setValue={setTaxaEntrega}
                 />
-                <Textarea
+                <InputTexto
                   label="Tempo estimado de entrega"
                   value={tempoEntrega}
                   setValue={setTempoEntrega}
@@ -144,13 +156,13 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                   setValue={setSenhaRepetida}
                 />
               </div>
-              <div className="modal-colunas" />
+              <div className="modal-colunas menor" />
               <InputImagem
                 value={urlImagem}
                 setValue={setUrlImagem}
               />
             </div>
-            <div className="usuarios-botoes">
+            <div className="cadastro-botoes">
               <button
                 className="cancelar"
                 type="button"

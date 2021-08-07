@@ -4,7 +4,7 @@ import useAuth from '../../hooks/useAuth';
 import { get } from '../../services/ApiClient';
 import './styles.css';
 import ModalEditarUsuario from '../ModalEditarUsuario';
-import Avatar from '../../assets/pizza.png';
+import Avatar from '../../assets/avatar.png';
 import Illustration from '../../assets/illustration-3.svg';
 import Snackbar from '../Snackbar';
 
@@ -55,7 +55,12 @@ export default function Cabecalho() {
             />
             <img className="dash-ilustracao" src={Illustration} alt="" />
             <div className="avatar-borda">
-              <img src={Avatar} alt="avatar" onClick={() => setModalEditarUsuario(true)} />
+              <img
+                className="avatar"
+                src={dadosUsuario.usuario.url_imagem || Avatar}
+                alt="avatar"
+                onClick={() => setModalEditarUsuario(true)}
+              />
             </div>
             <div className="localizar-titulo">
               <span className="titulo sombreado">
