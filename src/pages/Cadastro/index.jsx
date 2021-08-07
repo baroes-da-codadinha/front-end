@@ -5,12 +5,14 @@ import { post } from '../../services/ApiClient';
 import './styles.css';
 import guardarPreco from '../../functions/guardarPreco';
 import conferirPreco from '../../functions/conferirPreco';
+import categorias from '../../assets/categorias';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
 import InputValor from '../../components/InputValor';
 import Snackbar from '../../components/Snackbar';
 import Stepper from '../../components/Stepper';
 import Textarea from '../../components/Textarea';
+import InputSelect from '../../components/InputSelect';
 
 export default function Cadastro() {
   const history = useHistory();
@@ -56,7 +58,7 @@ export default function Cadastro() {
       restaurante: {
         nome: nomeDoRestaurante,
         descricao,
-        idCategoria,
+        idCategoria: (categorias.indexOf(idCategoria) + 1),
         taxaEntrega: guardarPreco(taxaEntrega),
         tempoEntregaMinutos,
         valorMinimoPedido: guardarPreco(valorMinimoPedido),
@@ -185,8 +187,9 @@ export default function Cadastro() {
                 value={nomeDoRestaurante}
                 setValue={setNomeDoRestaurante}
               />
-              <InputTexto
+              <InputSelect
                 label="Categoria do restaurante"
+                placeholder="Selecione a categoria"
                 value={idCategoria}
                 setValue={setIdCategoria}
               />
