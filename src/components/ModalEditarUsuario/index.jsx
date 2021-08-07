@@ -95,7 +95,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
 
   return (
     <>
-      <div className="modal">
+      <div className="modal-plus">
         <div className="base n-cadastro">
           <div className="title-box">
             <span className="titulo pagina">Editar Perfil</span>
@@ -108,12 +108,12 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                   value={nome}
                   setValue={setNome}
                 />
-                <Textarea
+                <InputTexto
                   label="Email"
                   value={email}
                   setValue={setEmail}
                 />
-                <Textarea
+                <InputTexto
                   label="Nome do restaurante"
                   value={nomeRestaurante}
                   setValue={setNomeRestaurante}

@@ -29,5 +29,6 @@
 .cadastro-botoes{
     display: flex;
     gap: 2.4rem;
+    margin-top: 10vh;
     margin-left: 40vw;
 }
