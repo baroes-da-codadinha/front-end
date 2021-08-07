@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
 import './styles.css';
-import editarPreco from '../../functions/editarPreco';
-import conferirPreco from '../../functions/conferirPreco';
-import guardarPreco from '../../functions/guardarPreco';
+import editarValorMinimo from '../../functions/editarValorMinimo';
+import conferirValorMinimo from '../../functions/conferirValorMinimo';
+import guardarValorMinimo from '../../functions/guardarValorMinimo';
+import editarTaxaEntrega from '../../functions/editarTaxaEntrega';
+import guardarTaxaEntrega from '../../functions/guardarTaxaEntrega';
 import InputImagem from '../InputImagem';
 import InputSenha from '../InputSenha';
 import InputTexto from '../InputTexto';
@@ -13,20 +15,21 @@ import InputValor from '../InputValor';
 import Textarea from '../Textarea';
 import Snackbar from '../Snackbar';
 
-export default function ModalEditarUsuario({ usuario, setModalEditarUsuario, setUsuarioEditado }) {
+export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario }) {
   const { token } = useAuth();
-  const valorMinimoEditado = editarPreco(usuario.valorMinimo);
+  const valorMinimoEditado = editarValorMinimo(dadosUsuario.restaurante.valor_minimo_pedido);
+  const taxaEntregaEditado = editarTaxaEntrega(dadosUsuario.restaurante.taxa_entrega);
 
-  const [nome, setNome] = useState(usuario.nome);
-  const [email, setEmail] = useState(usuario.nome);
-  const [nomeRestaurante, setNomeRestaurante] = useState(usuario.nome);
-  const [descricao, setDescricao] = useState(usuario.descricao);
-  const [taxaEntrega, setTaxaEntrega] = useState(usuario.nome);
-  const [tempoEntrega, setTempoEntrega] = useState(usuario.nome);
+  const [nome, setNome] = useState(dadosUsuario.usuario.nome);
+  const [email, setEmail] = useState(dadosUsuario.usuario.email);
+  const [nomeRestaurante, setNomeRestaurante] = useState(dadosUsuario.restaurante.nome);
+  const [descricao, setDescricao] = useState(dadosUsuario.restaurante.descricao);
+  const [taxaEntrega, setTaxaEntrega] = useState(taxaEntregaEditado);
+  const [tempoEntrega, setTempoEntrega] = useState(dadosUsuario.restaurante.tempo_entrega);
   const [valorMinimo, setValorMinimo] = useState(valorMinimoEditado);
   const [senha, setSenha] = useState('');
   const [senhaRepetida, setSenhaRepetida] = useState('');
-  const [urlImagem, setUrlImagem] = useState(usuario.url_imagem);
+  const [urlImagem, setUrlImagem] = useState(dadosUsuario.usuario.url_imagem);
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -34,7 +37,7 @@ export default function ModalEditarUsuario({ usuario, setModalEditarUsuario, set
   async function atualizarusuario(event) {
     event.preventDefault();
 
-    if (!conferirPreco(valorMinimo)) {
+    if (!conferirValorMinimo(valorMinimo)) {
       setErro('Valor inválido. Os valor informados deve ter o formato: R$ XX,XX');
       setOpenSnack(true);
       return;
@@ -46,20 +49,21 @@ export default function ModalEditarUsuario({ usuario, setModalEditarUsuario, set
       return;
     }
 
-    const editarUsuario = {
+    const editarusuario = {
       nome,
       email,
-      nomeRestaurante,
-      descricao,
-      taxaEntrega,
-      tempoEntrega,
-      valorMinimo: guardarPreco(valorMinimo),
       senha,
-      urlImagem,
+      restaurante: {
+        nome: nomeRestaurante,
+        descricao,
+        taxaEntrega: guardarTaxaEntrega(taxaEntrega),
+        tempoEntregaEmMinutos: tempoEntrega,
+        valorMinimoPedido: guardarValorMinimo(valorMinimo),
+      },
     };
 
     try {
-      const resposta = await put(`usuarios/${usuario.id}`, editarUsuario, token);
+      const resposta = await put(`usuarios/${dadosUsuario.usuario.id}`, editarusuario, token);
 
       if (!resposta.ok) {
         const mensagem = await resposta.json();
@@ -72,7 +76,6 @@ export default function ModalEditarUsuario({ usuario, setModalEditarUsuario, set
       console.log(resposta);
 
       setModalEditarUsuario(false);
-      setUsuarioEditado(null);
       window.location.reload();
     } catch (error) {
       setErro(error.message);
@@ -82,7 +85,6 @@ export default function ModalEditarUsuario({ usuario, setModalEditarUsuario, set
 
   function cancelar() {
     setModalEditarUsuario(false);
-    setUsuarioEditado(null);
   }
 
   return (
@@ -117,7 +119,7 @@ export default function ModalEditarUsuario({ usuario, setModalEditarUsuario, set
                   setValue={setDescricao}
                 />
                 <InputValor
-                  label="Valor minimo do pedido"
+                  label="Taxa de entrega"
                   value={taxaEntrega}
                   setValue={setTaxaEntrega}
                 />

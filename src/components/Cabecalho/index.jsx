@@ -12,9 +12,9 @@ export default function Cabecalho() {
   const history = useHistory();
   const { token, deslogar } = useAuth();
 
-  const [info, setInfo] = useState('');
+  const [dadosUsuario, setDadosUsuario] = useState('');
   const [modalEditarUsuario, setModalEditarUsuario] = useState(false);
-  const [usuarioEditado, setUsuarioEditado] = useState(null);
+  // const [usuarioEditado, setUsuarioEditado] = useState(null);
 
   const [erro, setErro] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -27,7 +27,7 @@ export default function Cabecalho() {
   async function onLoad() {
     try {
       const resposta = await get('usuarios', token);
-      setInfo(await resposta.json());
+      setDadosUsuario(await resposta.json());
     } catch (error) {
       setErro(error.message);
       setOpenSnack(true);
@@ -41,18 +41,17 @@ export default function Cabecalho() {
   return (
     <div>
       {
-        info && (
+        dadosUsuario && (
           <>
             {modalEditarUsuario && (
               <ModalEditarUsuario
-                usuario={usuarioEditado}
+                dadosUsuario={dadosUsuario}
                 setModalEditarUsuario={setModalEditarUsuario}
-                setUsuarioEditado={setUsuarioEditado}
               />
             )}
             <div
               className="imagem-cabecalho"
-              style={{ backgroundImage: `url(${info.categoria.url_imagem})` }}
+              style={{ backgroundImage: `url(${dadosUsuario.categoria.url_imagem})` }}
             />
             <img className="dash-ilustracao" src={Illustration} alt="" />
             <div className="avatar-borda">
@@ -60,7 +59,7 @@ export default function Cabecalho() {
             </div>
             <div className="localizar-titulo">
               <span className="titulo sombreado">
-                {info.restaurante.nome}
+                {dadosUsuario.restaurante.nome}
               </span>
               <button
                 className="botao-logout sombreado"
