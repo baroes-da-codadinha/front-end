@@ -10,6 +10,7 @@ import categorias from '../../assets/categorias';
 import guardarPreco from '../../functions/guardarPreco';
 import conferirPreco from '../../functions/conferirPreco';
 import editarPreco from '../../functions/editarPreco';
+import ehNumero from '../../functions/ehNumero';
 import uploadImagem from '../../functions/uploadImagem';
 import InputImagem from '../InputImagem';
 import InputSenha from '../InputSenha';
@@ -30,11 +31,11 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
   const [idCategoria, setIdCategoria] = useState('');
   const [descricao, setDescricao] = useState('');
   const [taxaEntrega, setTaxaEntrega] = useState('');
-  const [tempoEntrega, setTempoEntrega] = useState('');
+  const [tempoEntregaMinutos, setTempoEntregaMinutos] = useState('');
   const [valorMinimo, setValorMinimo] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [urlImagem, setUrlImagem] = useState(dadosUsuario.restaurante.url_imagem);
+  const [urlImagem, setUrlImagem] = useState('');
 
   const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -81,10 +82,22 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
       }
       editarUsuario.restaurante.valorMinimoPedido = guardarPreco(valorMinimo);
     }
-    if (tempoEntrega) editarUsuario.restaurante.tempoEntregaEmMinutos = tempoEntrega;
+    if (tempoEntregaMinutos) {
+      if (!ehNumero(tempoEntregaMinutos)) {
+        setMensagem({ texto: 'Tempo de entrega inválido. Deve ser um número.', status: 'erro' });
+        setOpenSnack(true);
+        return;
+      }
+      editarUsuario.restaurante.tempoEntregaMinutos = tempoEntregaMinutos;
+    }
+
+    if (!nome && !email && !senha && !nomeRestaurante && !descricao && !taxaEntrega && !tempoEntregaMinutos && !valorMinimo) {
+      setMensagem({ texto: 'Nenhuma informação a ser atualizada. Usuário não editado', status: 'erro' });
+      setOpenSnack(true);
+      return;
+    }
 
     try {
-      console.log(editarUsuario);
       if (urlImagem) {
         const base64Imagem = await imageToBase64(urlImagem);
 
@@ -175,8 +188,8 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                 <InputTexto
                   label="Tempo estimado de entrega"
                   placeholder={dadosUsuario.restaurante.tempo_entrega_minutos}
-                  value={tempoEntrega}
-                  setValue={setTempoEntrega}
+                  value={tempoEntregaMinutos}
+                  setValue={setTempoEntregaMinutos}
                 />
                 <InputValor
                   label="Valor minimo do pedido"

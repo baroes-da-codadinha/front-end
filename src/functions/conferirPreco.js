@@ -5,5 +5,7 @@ export default function conferirPreco(preco) {
   if (preco.indexOf(',') !== (preco.length - 3)) {
     return false;
   }
-  return true;
+  const novoPreco = preco.replace(',', '') * 1;
+  const testar = /^\d+$/.test(novoPreco);
+  return testar;
 }
