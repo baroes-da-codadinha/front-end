@@ -62,6 +62,7 @@ export default function Cadastro() {
         taxaEntrega: guardarPreco(taxaEntrega),
         tempoEntregaMinutos,
         valorMinimoPedido: guardarPreco(valorMinimoPedido),
+        urlImagem: 'https://fhfmgjnasgrddtfwgquj.supabase.in/storage/v1/object/public/cubosfood/placeholders/avatar.png',
       },
     };
 
@@ -71,7 +72,7 @@ export default function Cadastro() {
       if (!resposta.ok) {
         const msg = await resposta.json();
 
-        setMensagem(msg);
+        setMensagem({ texto: msg, status: 'erro' });
         setOpenSnack(true);
         return;
       }
@@ -254,7 +255,7 @@ export default function Cadastro() {
       </div>
       <div className="ilustracao" />
       <Snackbar
-        erro={mensagem}
+        mensagem={mensagem}
         openSnack={openSnack}
         setOpenSnack={setOpenSnack}
       />

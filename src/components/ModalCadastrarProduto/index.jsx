@@ -91,6 +91,10 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
     }
   }
 
+  function cancelar() {
+    setModalCadastrarProduto(false);
+  }
+
   return (
     <>
       <div className="modal">
@@ -138,7 +142,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
               <button
                 className="cancelar"
                 type="button"
-                onClick={() => setModalCadastrarProduto(false)}
+                onClick={() => cancelar()}
               >
                 Cancelar
               </button>

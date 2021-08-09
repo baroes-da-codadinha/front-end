@@ -37,7 +37,7 @@
 
 .avatar{
     height: 17.6rem;
-    width: 17.6rem;
+    width: auto;
 }
 
 .localizar-titulo{

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
@@ -6,11 +7,9 @@ import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
 import './styles.css';
 import categorias from '../../assets/categorias';
-import editarValorMinimo from '../../functions/editarValorMinimo';
-// import conferirValorMinimo from '../../functions/conferirValorMinimo';
-import guardarValorMinimo from '../../functions/guardarValorMinimo';
-import editarTaxaEntrega from '../../functions/editarTaxaEntrega';
-import guardarTaxaEntrega from '../../functions/guardarTaxaEntrega';
+import guardarPreco from '../../functions/guardarPreco';
+import conferirPreco from '../../functions/conferirPreco';
+import editarPreco from '../../functions/editarPreco';
 import uploadImagem from '../../functions/uploadImagem';
 import InputImagem from '../InputImagem';
 import InputSenha from '../InputSenha';
@@ -22,8 +21,8 @@ import Snackbar from '../Snackbar';
 
 export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario }) {
   const { token } = useAuth();
-  const valorMinimoEditado = editarValorMinimo(dadosUsuario.restaurante.valor_minimo_pedido);
-  const taxaEntregaEditado = editarTaxaEntrega(dadosUsuario.restaurante.taxa_entrega);
+  const valorMinimoEditado = editarPreco(dadosUsuario.restaurante.valor_minimo_pedido);
+  const taxaEntregaEditado = editarPreco(dadosUsuario.restaurante.taxa_entrega);
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -34,8 +33,8 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
   const [tempoEntrega, setTempoEntrega] = useState('');
   const [valorMinimo, setValorMinimo] = useState('');
   const [senha, setSenha] = useState('');
-  const [senhaRepetida, setSenhaRepetida] = useState('');
-  const [urlImagem, setUrlImagem] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [urlImagem, setUrlImagem] = useState(dadosUsuario.restaurante.url_imagem);
 
   const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -43,29 +42,50 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
   async function atualizarusuario(event) {
     event.preventDefault();
 
-    // if (!conferirValorMinimo(valorMinimo)) {
-    //   setMensagem({ texto: 'Valor inválido. Os valor informados deve ter o formato: R$ XX,XX', status: 'erro' });
-    //   setOpenSnack(true);
-    //   return;
-    // }
+    const editarUsuario = { restaurante: {} };
 
-    const editarUsuario = {
-      nome,
-      email,
-      senha,
-      restaurante: {
-        nome: nomeRestaurante,
-        descricao,
-        idCategoria: (categorias.indexOf(idCategoria) + 1),
-        taxaEntrega: guardarTaxaEntrega(taxaEntrega),
-        tempoEntregaEmMinutos: tempoEntrega,
-        valorMinimoPedido: guardarValorMinimo(valorMinimo),
-        urlImagem,
-      },
-    };
+    if (nome) editarUsuario.nome = nome;
+    if (email) {
+      if (!email.includes('@') || email.length < 3) {
+        setMensagem({ texto: 'Email inválido!', status: 'erro' });
+        setOpenSnack(true);
+        return;
+      }
+
+      editarUsuario.email = email;
+    }
+    if (senha) {
+      if (senha !== confirmarSenha) {
+        setMensagem({ texto: 'As senhas digitadas devem ser iguais', status: 'erro' });
+        setOpenSnack(true);
+        return;
+      }
+      editarUsuario.senha = senha;
+    }
+    if (nomeRestaurante) editarUsuario.restaurante.nome = nomeRestaurante;
+    if (descricao) editarUsuario.restaurante.descricao = descricao;
+    if (idCategoria) editarUsuario.restaurante.idCategoria = (categorias.indexOf(idCategoria) + 1);
+    if (taxaEntrega) {
+      if (!conferirPreco(taxaEntrega)) {
+        setMensagem({ texto: 'Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX', status: 'erro' });
+        setOpenSnack(true);
+        return;
+      }
+      editarUsuario.restaurante.taxaEntrega = guardarPreco(taxaEntrega);
+    }
+    if (valorMinimo) {
+      if (!conferirPreco(valorMinimo)) {
+        setMensagem({ texto: 'Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX', status: 'erro' });
+        setOpenSnack(true);
+        return;
+      }
+      editarUsuario.restaurante.valorMinimoPedido = guardarPreco(valorMinimo);
+    }
+    if (tempoEntrega) editarUsuario.restaurante.tempoEntregaEmMinutos = tempoEntrega;
 
     try {
-      if (editarUsuario.urlImagem) {
+      console.log(editarUsuario);
+      if (urlImagem) {
         const base64Imagem = await imageToBase64(urlImagem);
 
         const idImagem = Math.floor(Math.random() * 10000);
@@ -77,7 +97,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
 
         const novaUrl = await uploadImagem(imagemSalva, token);
 
-        editarUsuario.urlImagem = novaUrl;
+        editarUsuario.restaurante.urlImagem = novaUrl;
       }
 
       const resposta = await put(`usuarios/${dadosUsuario.usuario.id}`, editarUsuario, token);
@@ -102,6 +122,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
 
   function cancelar() {
     setModalEditarUsuario(false);
+    window.location.reload();
   }
 
   return (
@@ -153,7 +174,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                 />
                 <InputTexto
                   label="Tempo estimado de entrega"
-                  placeholder={dadosUsuario.restaurante.tempo_entrega}
+                  placeholder={dadosUsuario.restaurante.tempo_entrega_minutos}
                   value={tempoEntrega}
                   setValue={setTempoEntrega}
                 />
@@ -170,8 +191,8 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                 />
                 <InputSenha
                   label="Repita a senha"
-                  value={senhaRepetida}
-                  setValue={setSenhaRepetida}
+                  value={confirmarSenha}
+                  setValue={setConfirmarSenha}
                 />
               </div>
               <div className="modal-colunas menor" />

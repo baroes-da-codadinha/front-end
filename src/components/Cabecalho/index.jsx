@@ -51,7 +51,7 @@ export default function Cabecalho() {
             )}
             <div
               className="imagem-cabecalho"
-              style={{ backgroundImage: `url(${dadosUsuario.categoria.url_imagem})` }}
+              style={{ backgroundImage: `url(${dadosUsuario && dadosUsuario.categoria.url_imagem})` }}
             />
             <img className="dash-ilustracao" src={Illustration} alt="" />
             <div className="avatar-borda">

@@ -77,9 +77,10 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
         return;
       }
 
+      setMensagem({ texto: 'Produto atualizado com sucesso!', status: 'sucesso' });
+      setOpenSnack(true);
       setModalEditarProduto(false);
       setProdutoEditado(null);
-      window.location.reload();
     } catch (error) {
       setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);

@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
-import Placeholder from '../../assets/placeholder.svg';
 import './styles.css';
 
 export default function InputImagem({ value, setValue }) {
@@ -18,7 +17,7 @@ export default function InputImagem({ value, setValue }) {
   return (
     <div
       className="placeholder-base"
-      style={{ backgroundImage: `url(${value || Placeholder})`, boxShadow: `${value && 'inset 0rem -18rem 10rem rgba(0,0,0,0.9)'}` }}
+      style={{ backgroundImage: `url(${value})`, boxShadow: `${value && 'inset 0rem -18rem 10rem rgba(0,0,0,0.7)'}` }}
       {...getRootProps()}
     >
       <input
