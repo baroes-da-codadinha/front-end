@@ -2,6 +2,7 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import './styles.css';
+import Placeholder from '../../assets/produto.png';
 
 export default function InputImagem({ value, setValue }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -17,11 +18,11 @@ export default function InputImagem({ value, setValue }) {
   return (
     <div
       className="placeholder-base"
-      style={{ backgroundImage: `url(${value})`, boxShadow: `${value && 'inset 0rem -18rem 10rem rgba(0,0,0,0.7)'}` }}
+      style={{ backgroundImage: `url(${value || Placeholder})`, boxShadow: 'inset 0rem -13rem 10rem rgba(0,0,0,0.7)' }}
       {...getRootProps()}
     >
       <input
-        style={{ backgroundImage: `url(${value})` }}
+        style={{ backgroundImage: `url(${value || Placeholder})` }}
         {...getInputProps()}
       />
       {
