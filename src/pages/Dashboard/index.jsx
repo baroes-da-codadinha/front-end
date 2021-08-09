@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [produtoEditado, setProdutoEditado] = useState(null);
   const [cadastroProduto, setCadastroProduto] = useState(null);
 
-  const [erro, setErro] = useState('');
+  const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   async function onLoad() {
@@ -36,7 +36,7 @@ export default function Dashboard() {
         return;
       }
     } catch (error) {
-      setErro(error.message);
+      setMensagem({ texto: error.message, status: 'erro' });
     }
   }
 
@@ -89,7 +89,7 @@ export default function Dashboard() {
         )}
       </div>
       <Snackbar
-        erro={erro}
+        mensagem={mensagem}
         openSnack={openSnack}
         setOpenSnack={setOpenSnack}
       />

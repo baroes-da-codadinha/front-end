@@ -1,14 +1,17 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
+import imageToBase64 from 'image-to-base64/browser';
 import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
 import './styles.css';
 import categorias from '../../assets/categorias';
 import editarValorMinimo from '../../functions/editarValorMinimo';
-import conferirValorMinimo from '../../functions/conferirValorMinimo';
+// import conferirValorMinimo from '../../functions/conferirValorMinimo';
 import guardarValorMinimo from '../../functions/guardarValorMinimo';
 import editarTaxaEntrega from '../../functions/editarTaxaEntrega';
 import guardarTaxaEntrega from '../../functions/guardarTaxaEntrega';
+import uploadImagem from '../../functions/uploadImagem';
 import InputImagem from '../InputImagem';
 import InputSenha from '../InputSenha';
 import InputSelect from '../InputSelect';
@@ -21,40 +24,32 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
   const { token } = useAuth();
   const valorMinimoEditado = editarValorMinimo(dadosUsuario.restaurante.valor_minimo_pedido);
   const taxaEntregaEditado = editarTaxaEntrega(dadosUsuario.restaurante.taxa_entrega);
-  const indexCategoria = dadosUsuario.restaurante.categoria_id - 1;
-  const categoriaEditada = categorias[indexCategoria];
 
-  const [nome, setNome] = useState(dadosUsuario.usuario.nome);
-  const [email, setEmail] = useState(dadosUsuario.usuario.email);
-  const [nomeRestaurante, setNomeRestaurante] = useState(dadosUsuario.restaurante.nome);
-  const [idCategoria, setIdCategoria] = useState(categoriaEditada);
-  const [descricao, setDescricao] = useState(dadosUsuario.restaurante.descricao);
-  const [taxaEntrega, setTaxaEntrega] = useState(taxaEntregaEditado);
-  const [tempoEntrega, setTempoEntrega] = useState(dadosUsuario.restaurante.tempo_entrega);
-  const [valorMinimo, setValorMinimo] = useState(valorMinimoEditado);
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [nomeRestaurante, setNomeRestaurante] = useState('');
+  const [idCategoria, setIdCategoria] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [taxaEntrega, setTaxaEntrega] = useState('');
+  const [tempoEntrega, setTempoEntrega] = useState('');
+  const [valorMinimo, setValorMinimo] = useState('');
   const [senha, setSenha] = useState('');
   const [senhaRepetida, setSenhaRepetida] = useState('');
-  const [urlImagem, setUrlImagem] = useState(dadosUsuario.usuario.url_imagem);
+  const [urlImagem, setUrlImagem] = useState('');
 
-  const [erro, setErro] = useState('');
+  const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   async function atualizarusuario(event) {
     event.preventDefault();
 
-    if (!conferirValorMinimo(valorMinimo)) {
-      setErro('Valor inválido. Os valor informados deve ter o formato: R$ XX,XX');
-      setOpenSnack(true);
-      return;
-    }
+    // if (!conferirValorMinimo(valorMinimo)) {
+    //   setMensagem({ texto: 'Valor inválido. Os valor informados deve ter o formato: R$ XX,XX', status: 'erro' });
+    //   setOpenSnack(true);
+    //   return;
+    // }
 
-    if (!nome) {
-      setErro('Nome é um campo obrigatório.');
-      setOpenSnack(true);
-      return;
-    }
-
-    const editarusuario = {
+    const editarUsuario = {
       nome,
       email,
       senha,
@@ -65,26 +60,42 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
         taxaEntrega: guardarTaxaEntrega(taxaEntrega),
         tempoEntregaEmMinutos: tempoEntrega,
         valorMinimoPedido: guardarValorMinimo(valorMinimo),
+        urlImagem,
       },
     };
 
     try {
-      const resposta = await put(`usuarios/${dadosUsuario.usuario.id}`, editarusuario, token);
+      if (editarUsuario.urlImagem) {
+        const base64Imagem = await imageToBase64(urlImagem);
+
+        const idImagem = Math.floor(Math.random() * 10000);
+
+        const imagemSalva = {
+          nome: `restaurantes/${idImagem}`,
+          imagem: base64Imagem,
+        };
+
+        const novaUrl = await uploadImagem(imagemSalva, token);
+
+        editarUsuario.urlImagem = novaUrl;
+      }
+
+      const resposta = await put(`usuarios/${dadosUsuario.usuario.id}`, editarUsuario, token);
 
       if (!resposta.ok) {
-        const mensagem = await resposta.json();
+        const msg = await resposta.json();
 
-        setErro(mensagem);
+        setMensagem({ texto: msg, status: 'erro' });
         setOpenSnack(true);
         return;
       }
 
-      console.log(resposta);
-
-      setModalEditarUsuario(false);
-      window.location.reload();
+      setMensagem({ texto: 'Usuário atualizado com sucesso!', status: 'sucesso' });
+      setOpenSnack(true);
+      // setModalEditarUsuario(false);
+      // window.location.reload();
     } catch (error) {
-      setErro(error.message);
+      setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
     }
   }
@@ -105,16 +116,19 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
               <div className="modal-colunas maior">
                 <InputTexto
                   label="Nome de usuário"
+                  placeholder={dadosUsuario.usuario.nome}
                   value={nome}
                   setValue={setNome}
                 />
                 <InputTexto
                   label="Email"
+                  placeholder={dadosUsuario.usuario.email}
                   value={email}
                   setValue={setEmail}
                 />
                 <InputTexto
                   label="Nome do restaurante"
+                  placeholder={dadosUsuario.restaurante.nome}
                   value={nomeRestaurante}
                   setValue={setNomeRestaurante}
                 />
@@ -127,21 +141,25 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                 <Textarea
                   label="Descrição"
                   maxLength="80"
+                  placeholder={dadosUsuario.restaurante.descricao}
                   value={descricao}
                   setValue={setDescricao}
                 />
                 <InputValor
                   label="Taxa de entrega"
+                  placeholder={taxaEntregaEditado}
                   value={taxaEntrega}
                   setValue={setTaxaEntrega}
                 />
                 <InputTexto
                   label="Tempo estimado de entrega"
+                  placeholder={dadosUsuario.restaurante.tempo_entrega}
                   value={tempoEntrega}
                   setValue={setTempoEntrega}
                 />
                 <InputValor
                   label="Valor minimo do pedido"
+                  placeholder={valorMinimoEditado}
                   value={valorMinimo}
                   setValue={setValorMinimo}
                 />
@@ -180,7 +198,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
           </form>
         </div>
         <Snackbar
-          erro={erro}
+          mensagem={mensagem}
           openSnack={openSnack}
           setOpenSnack={setOpenSnack}
         />

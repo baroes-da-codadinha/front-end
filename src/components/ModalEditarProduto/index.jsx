@@ -26,20 +26,20 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
   const [permiteObservacoes, setPermiteObservacoes] = useState(produto.permite_observacoes);
   const [urlImagem, setUrlImagem] = useState(produto.url_imagem);
 
-  const [erro, setErro] = useState('');
+  const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   async function atualizarProduto(event) {
     event.preventDefault();
 
     if (!conferirPreco(preco)) {
-      setErro('Valor inválido. O valo informado deve ter o formato: R$ XX,XX');
+      setMensagem({ texto: 'Valor inválido. O valo informado deve ter o formato: R$ XX,XX', status: 'erro' });
       setOpenSnack(true);
       return;
     }
 
     if (!nome) {
-      setErro('Nome é um campo obrigatório.');
+      setMensagem({ texto: 'Nome é um campo obrigatório.', status: 'erro' });
       setOpenSnack(true);
       return;
     }
@@ -70,9 +70,9 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
       const resposta = await put(`produtos/${produto.id}`, editarProduto, token);
 
       if (!resposta.ok) {
-        const mensagem = await resposta.json();
+        const msg = await resposta.json();
 
-        setErro(mensagem);
+        setMensagem(msg);
         setOpenSnack(true);
         return;
       }
@@ -81,7 +81,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
       setProdutoEditado(null);
       window.location.reload();
     } catch (error) {
-      setErro(error.message);
+      setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
     }
   }
@@ -163,7 +163,7 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
           </form>
         </div>
         <Snackbar
-          erro={erro}
+          mensagem={mensagem}
           openSnack={openSnack}
           setOpenSnack={setOpenSnack}
         />

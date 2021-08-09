@@ -15,7 +15,7 @@ export default function Card({ produto, setModalEditarProduto, setProdutoEditado
   const novoPreco = preco.toString();
   const precoFormatado = useRef(editarPreco(novoPreco, true));
 
-  const [erro, setErro] = useState('');
+  const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   async function excluirProduto() {
@@ -23,14 +23,16 @@ export default function Card({ produto, setModalEditarProduto, setProdutoEditado
       const resposta = await del(`produtos/${id}`, token);
 
       if (!resposta.ok) {
-        const mensagem = await resposta.json();
+        const msg = await resposta.json();
 
-        setErro(mensagem);
+        setMensagem({ texto: msg, status: 'erro' });
         setOpenSnack(true);
         return;
       }
+      setMensagem({ texto: 'Produto excluído com sucesso.', status: 'sucesso' });
+      setOpenSnack(true);
     } catch (error) {
-      setErro(error.message);
+      setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
     }
   }
@@ -73,7 +75,7 @@ export default function Card({ produto, setModalEditarProduto, setProdutoEditado
         </div>
       </div>
       <Snackbar
-        erro={erro}
+        mensagem={mensagem}
         openSnack={openSnack}
         setOpenSnack={setOpenSnack}
       />

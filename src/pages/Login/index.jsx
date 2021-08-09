@@ -15,7 +15,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const [erro, setErro] = useState('');
+  const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   async function handleSubmit(event) {
@@ -27,16 +27,16 @@ export default function Login() {
     };
 
     if (!email || !senha) {
-      setErro('Todos os dados devem ser preenchidos');
+      setMensagem({ texto: 'Todos os dados devem ser preenchidos.', status: 'erro' });
       setOpenSnack(true);
     }
     try {
       const resposta = await post('login', login);
 
       if (!resposta.ok) {
-        const mensagem = await resposta.json();
+        const msg = await resposta.json();
 
-        setErro(mensagem);
+        setMensagem({ texto: msg, status: 'erro' });
         setOpenSnack(true);
         return;
       }
@@ -47,7 +47,7 @@ export default function Login() {
 
       history.push('/produtos');
     } catch (error) {
-      setErro(error.message);
+      setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
     }
   }
@@ -86,7 +86,7 @@ export default function Login() {
         </form>
       </div>
       <Snackbar
-        erro={erro}
+        mensagem={mensagem}
         openSnack={openSnack}
         setOpenSnack={setOpenSnack}
       />

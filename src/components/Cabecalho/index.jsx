@@ -16,7 +16,7 @@ export default function Cabecalho() {
   const [modalEditarUsuario, setModalEditarUsuario] = useState(false);
   // const [usuarioEditado, setUsuarioEditado] = useState(null);
 
-  const [erro, setErro] = useState('');
+  const [erro, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   function logout() {
@@ -29,7 +29,7 @@ export default function Cabecalho() {
       const resposta = await get('usuarios', token);
       setDadosUsuario(await resposta.json());
     } catch (error) {
-      setErro(error.message);
+      setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
     }
   }
@@ -57,7 +57,7 @@ export default function Cabecalho() {
             <div className="avatar-borda">
               <img
                 className="avatar"
-                src={dadosUsuario.usuario.url_imagem || Avatar}
+                src={dadosUsuario.restaurante.url_imagem || Avatar}
                 alt="avatar"
                 onClick={() => setModalEditarUsuario(true)}
               />

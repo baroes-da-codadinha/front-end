@@ -24,20 +24,20 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
   const [permiteObservacoes, setPermiteObservacoes] = useState(false);
   const [urlImagem, setUrlImagem] = useState('');
 
-  const [erro, setErro] = useState('');
+  const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   async function criarProduto(event) {
     event.preventDefault();
 
     if (!conferirPreco(preco)) {
-      setErro('Valor inválido. O valor informado deve ter o formato: R$ XX,XX');
+      setMensagem({ texto: 'Valor inválido. O valor informado deve ter o formato: R$ XX,XX', status: 'erro' });
       setOpenSnack(true);
       return;
     }
 
     if (!nome) {
-      setErro('Nome é um campo obrigatório.');
+      setMensagem({ texto: 'Nome é um campo obrigatório.', status: 'erro' });
       setOpenSnack(true);
       return;
     }
@@ -54,34 +54,39 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
     try {
       const infoUsuario = await (await get('usuarios', token)).json();
 
-      const base64Imagem = await imageToBase64(urlImagem);
+      if (novoProduto.urlImagem) {
+        const base64Imagem = await imageToBase64(urlImagem);
 
-      const idImagem = Math.floor(Math.random() * 10000);
+        const idImagem = Math.floor(Math.random() * 10000);
 
-      const imagemSalva = {
-        nome: `produtos/${infoUsuario.restaurante.id}/${idImagem}`,
-        imagem: base64Imagem,
-      };
+        const imagemSalva = {
+          nome: `produtos/${infoUsuario.restaurante.id}/${idImagem}`,
+          imagem: base64Imagem,
+        };
 
-      const novaUrl = await uploadImagem(imagemSalva, token);
+        const novaUrl = await uploadImagem(imagemSalva, token);
 
-      novoProduto.urlImagem = novaUrl;
+        novoProduto.urlImagem = novaUrl;
+      } else {
+        const urlPlaceholder = 'https://fhfmgjnasgrddtfwgquj.supabase.in/storage/v1/object/public/cubosfood/placeholders/produto.png';
+
+        novoProduto.urlImagem = urlPlaceholder;
+      }
 
       const resposta = await post('produtos', novoProduto, token);
 
       if (!resposta.ok) {
-        const mensagem = await resposta.json();
+        const msg = await resposta.json();
 
-        setErro(mensagem);
+        setMensagem({ texto: msg, status: 'erro' });
         setOpenSnack(true);
         return;
       }
-
+      window.location.reload();
       setModalCadastrarProduto(false);
       setCadastroProduto(false);
-      window.location.reload();
     } catch (error) {
-      setErro(error.message);
+      setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
     }
   }
@@ -147,7 +152,7 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
           </form>
         </div>
         <Snackbar
-          erro={erro}
+          mensagem={mensagem}
           openSnack={openSnack}
           setOpenSnack={setOpenSnack}
         />

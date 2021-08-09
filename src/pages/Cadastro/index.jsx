@@ -39,14 +39,14 @@ export default function Cadastro() {
   const [tempoEntregaMinutos, setTempoEntregaMinutos] = useState('');
   const [valorMinimoPedido, setValorMinimoPedido] = useState('00,00');
 
-  const [erro, setErro] = useState('');
+  const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
   async function handleCriarconta(event) {
     event.preventDefault();
 
     if (!conferirPreco(taxaEntrega) || !conferirPreco(valorMinimoPedido)) {
-      setErro('Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX');
+      setMensagem({ texto: 'Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX', status: 'erro' });
       setOpenSnack(true);
       return;
     }
@@ -69,53 +69,53 @@ export default function Cadastro() {
       const resposta = await post('usuarios', cadastro);
 
       if (!resposta.ok) {
-        const mensagem = await resposta.json();
+        const msg = await resposta.json();
 
-        setErro(mensagem);
+        setMensagem(msg);
         setOpenSnack(true);
         return;
       }
 
       history.push('/');
     } catch (error) {
-      setErro(error.message);
+      setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
     }
   }
 
   function handleAvançarStep() {
-    let mensagem = 'Preencha todos os itens para continuar';
+    let msg = 'Preencha todos os itens para continuar';
     const newStep = [...step];
     for (let i = 0; i < newStep.length; i++) {
       if (newStep[i].status === 'editando') {
         if (!nome || !email || !senha || !confirmarSenha) {
-          setErro(mensagem);
+          setMensagem({ texto: msg, status: 'erro' });
           setOpenSnack(true);
           break;
         }
 
         if (senha.length < 5) {
-          setErro('A senha deve ter mais de cinco caracteres.');
+          setMensagem({ texto: 'A senha deve ter mais de cinco caracteres.', status: 'erro' });
           setOpenSnack(true);
           break;
         }
 
         if (!email.includes('@') || email.length < 3) {
-          setErro('Email inválido!');
+          setMensagem({ texto: 'Email inválido!', status: 'erro' });
           setOpenSnack(true);
           break;
         }
 
         if (senha !== confirmarSenha) {
-          setErro('As senhas digitadas devem ser iguais');
+          setMensagem({ texto: 'As senhas digitadas devem ser iguais', status: 'erro' });
           setOpenSnack(true);
           break;
         }
 
         if (newStep[0].status === 'concluido') {
           if (!nomeDoRestaurante || !idCategoria) {
-            mensagem = 'Nome de restaurante e categoria são campos obrigatórios';
-            setErro(mensagem);
+            msg = 'Nome de restaurante e categoria são campos obrigatórios';
+            setMensagem({ texto: msg, status: 'erro' });
             setOpenSnack(true);
             break;
           }
@@ -254,7 +254,7 @@ export default function Cadastro() {
       </div>
       <div className="ilustracao" />
       <Snackbar
-        erro={erro}
+        erro={mensagem}
         openSnack={openSnack}
         setOpenSnack={setOpenSnack}
       />
