@@ -31,7 +31,7 @@ export default function Login() {
       setOpenSnack(true);
     }
     try {
-      const resposta = await post('login', login);
+      const resposta = await post('login-usuario', login);
 
       if (!resposta.ok) {
         const msg = await resposta.json();

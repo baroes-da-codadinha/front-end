@@ -91,7 +91,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
       editarUsuario.restaurante.tempoEntregaMinutos = tempoEntregaMinutos;
     }
 
-    if (!nome && !email && !senha && !nomeRestaurante && !idCategoria && !descricao && !taxaEntrega && !tempoEntregaMinutos && !valorMinimo) {
+    if (!nome && !email && !senha && !nomeRestaurante && !idCategoria && !descricao && !taxaEntrega && !tempoEntregaMinutos && !valorMinimo && !urlImagem) {
       setMensagem({ texto: 'Nenhuma informação a ser atualizada. Usuário não editado', status: 'erro' });
       setOpenSnack(true);
       return;
@@ -125,8 +125,8 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
 
       setMensagem({ texto: 'Usuário atualizado com sucesso!', status: 'sucesso' });
       setOpenSnack(true);
-      // setModalEditarUsuario(false);
-      // window.location.reload();
+      setModalEditarUsuario(false);
+      window.location.reload();
     } catch (error) {
       setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
