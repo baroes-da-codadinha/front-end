@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
@@ -6,7 +7,6 @@ import imageToBase64 from 'image-to-base64/browser';
 import useAuth from '../../hooks/useAuth';
 import { put } from '../../services/ApiClient';
 import './styles.css';
-import categorias from '../../assets/categorias';
 import guardarPreco from '../../functions/guardarPreco';
 import conferirPreco from '../../functions/conferirPreco';
 import editarPreco from '../../functions/editarPreco';
@@ -21,6 +21,7 @@ import Textarea from '../Textarea';
 import Snackbar from '../Snackbar';
 
 export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario }) {
+  console.log(dadosUsuario);
   const { token } = useAuth();
   const valorMinimoEditado = editarPreco(dadosUsuario.restaurante.valor_minimo_pedido);
   const taxaEntregaEditado = editarPreco(dadosUsuario.restaurante.taxa_entrega);
@@ -28,14 +29,14 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [nomeRestaurante, setNomeRestaurante] = useState('');
-  const [idCategoria, setIdCategoria] = useState('');
+  const [categoria, setCategoria] = useState('');
   const [descricao, setDescricao] = useState('');
   const [taxaEntrega, setTaxaEntrega] = useState('');
   const [tempoEntregaMinutos, setTempoEntregaMinutos] = useState('');
   const [valorMinimo, setValorMinimo] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [urlImagem, setUrlImagem] = useState('');
+  const [urlImagem, setUrlImagem] = useState(dadosUsuario.restaurante.url_imagem);
 
   const [mensagem, setMensagem] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
@@ -65,7 +66,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
     }
     if (nomeRestaurante) editarUsuario.restaurante.nome = nomeRestaurante;
     if (descricao) editarUsuario.restaurante.descricao = descricao;
-    if (idCategoria) editarUsuario.restaurante.idCategoria = (categorias.indexOf(idCategoria) + 1);
+    if (categoria) editarUsuario.restaurante.idCategoria = categoria.id;
     if (taxaEntrega) {
       if (!conferirPreco(taxaEntrega)) {
         setMensagem({ texto: 'Valores inválidos. Os valores informados devem ter o formato: R$ XX,XX', status: 'erro' });
@@ -91,7 +92,7 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
       editarUsuario.restaurante.tempoEntregaMinutos = tempoEntregaMinutos;
     }
 
-    if (!nome && !email && !senha && !nomeRestaurante && !idCategoria && !descricao && !taxaEntrega && !tempoEntregaMinutos && !valorMinimo && !urlImagem) {
+    if (!nome && !email && !senha && !nomeRestaurante && !categoria && !descricao && !taxaEntrega && !tempoEntregaMinutos && !valorMinimo && !urlImagem) {
       setMensagem({ texto: 'Nenhuma informação a ser atualizada. Usuário não editado', status: 'erro' });
       setOpenSnack(true);
       return;
@@ -126,7 +127,6 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
       setMensagem({ texto: 'Usuário atualizado com sucesso!', status: 'sucesso' });
       setOpenSnack(true);
       setModalEditarUsuario(false);
-      window.location.reload();
     } catch (error) {
       setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
@@ -135,7 +135,6 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
 
   function cancelar() {
     setModalEditarUsuario(false);
-    window.location.reload();
   }
 
   return (
@@ -168,9 +167,9 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                 />
                 <InputSelect
                   label="Categoria do restaurante"
-                  placeholder="Selecione a categoria"
-                  value={idCategoria}
-                  setValue={setIdCategoria}
+                  placeholder={dadosUsuario.categoria.nome}
+                  value={categoria}
+                  setValue={setCategoria}
                 />
                 <Textarea
                   label="Descrição"
@@ -209,10 +208,12 @@ export default function ModalEditarUsuario({ dadosUsuario, setModalEditarUsuario
                 />
               </div>
               <div className="modal-colunas menor" />
-              <InputImagem
-                value={urlImagem}
-                setValue={setUrlImagem}
-              />
+              {urlImagem && (
+                <InputImagem
+                  value={urlImagem}
+                  setValue={setUrlImagem}
+                />
+              )}
             </div>
             <div className="cadastro-botoes">
               <button

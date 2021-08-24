@@ -141,7 +141,6 @@ export default function ModalEditarProduto({ produto, setModalEditarProduto, set
               </div>
               <div className="modal-colunas" />
               <InputImagem
-                produto={produto}
                 value={urlImagem}
                 setValue={setUrlImagem}
               />

@@ -34,7 +34,7 @@ export default function Cadastro() {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [nomeDoRestaurante, setNomeDoRestaurante] = useState('');
-  const [idCategoria, setIdCategoria] = useState('');
+  const [categoria, setCategoria] = useState('');
   const [descricao, setDescricao] = useState('');
   const [taxaEntrega, setTaxaEntrega] = useState('00,00');
   const [tempoEntregaMinutos, setTempoEntregaMinutos] = useState('');
@@ -65,7 +65,7 @@ export default function Cadastro() {
       restaurante: {
         nome: nomeDoRestaurante,
         descricao,
-        idCategoria: (categorias.indexOf(idCategoria) + 1),
+        idCategoria: categoria.id,
         taxaEntrega: guardarPreco(taxaEntrega),
         tempoEntregaMinutos,
         valorMinimoPedido: guardarPreco(valorMinimoPedido),
@@ -121,7 +121,7 @@ export default function Cadastro() {
         }
 
         if (newStep[0].status === 'concluido') {
-          if (!nomeDoRestaurante || !idCategoria) {
+          if (!nomeDoRestaurante || !categoria) {
             msg = 'Nome de restaurante e categoria são campos obrigatórios';
             setMensagem({ texto: msg, status: 'erro' });
             setOpenSnack(true);
@@ -198,8 +198,8 @@ export default function Cadastro() {
               <InputSelect
                 label="Categoria do restaurante"
                 placeholder="Selecione a categoria"
-                value={idCategoria}
-                setValue={setIdCategoria}
+                value={categoria}
+                setValue={setCategoria}
               />
               <Textarea
                 label="Descrição"

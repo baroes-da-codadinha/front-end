@@ -27,7 +27,8 @@ export default function Cabecalho() {
   async function onLoad() {
     try {
       const resposta = await get('usuarios', token);
-      setDadosUsuario(await resposta.json());
+      const usuario = await resposta.json();
+      setDadosUsuario(usuario);
     } catch (error) {
       setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);
@@ -36,7 +37,8 @@ export default function Cabecalho() {
 
   useEffect(() => {
     onLoad();
-  }, []);
+  }, [dadosUsuario,
+    modalEditarUsuario]);
 
   return (
     <div>

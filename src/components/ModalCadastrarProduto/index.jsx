@@ -82,7 +82,6 @@ export default function ModalCadastrarProduto({ setModalCadastrarProduto, setCad
         setOpenSnack(true);
         return;
       }
-      window.location.reload();
       setModalCadastrarProduto(false);
       setCadastroProduto(false);
     } catch (error) {

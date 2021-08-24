@@ -42,7 +42,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     onLoad();
-  }, [produtos]);
+  }, [produtos,
+    modalCadastrarProduto,
+    modalEditarProduto,
+    cadastroProduto]);
 
   return (
     <div>
@@ -82,7 +85,12 @@ export default function Dashboard() {
           <div className="container-produtos">
             {
               produtos.map((produto) => (
-                <Card key={produto.id} produto={produto} setModalEditarProduto={setModalEditarProduto} setProdutoEditado={setProdutoEditado} />
+                <Card
+                  key={produto.id}
+                  produto={produto}
+                  setModalEditarProduto={setModalEditarProduto}
+                  setProdutoEditado={setProdutoEditado}
+                />
               ))
             }
           </div>
