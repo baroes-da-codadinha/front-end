@@ -5,6 +5,7 @@
     border: 0.2rem solid #FB3B0033;
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
     cursor: pointer;
 }
 
