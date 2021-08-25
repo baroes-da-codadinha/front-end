@@ -16,8 +16,12 @@
     box-shadow: 0rem 0.4rem 0.4rem rgba(0, 0, 0, 0.05);
     border-radius: 0.5rem 0rem 0rem 0.5rem;
     cursor: pointer;
-    background-color: var(--cinza-claro);
+    background-color: var(--branco);
     color: var(--cinza-escuro);
+}
+
+.select:hover {
+    background-color: var(--cinza-claro);
 }
 
 .right {
@@ -28,7 +32,7 @@
     border-radius: 0.5rem 0rem 0rem 0.5rem;
 }
 
-.ativo {
+.ativo, .ativo:hover {
     background-color: var(--laranja-intenso);
     color: var(--branco);
     pointer-events: none;
