@@ -11,16 +11,32 @@ button {
     background-color: var(--laranja-intenso);
     color: var(--branco);
     padding: 1.3rem 4rem;
-
 }
 
-.aceitar:hover{
+.reverso {
+    background-color: var(--branco);
+    color: var(--laranja-intenso);
+    padding: 0.6rem 3rem;
+}
+
+.reverso:hover {
+    background-color: var(--cinza-claro);
+}
+
+.reverso:disabled {
+    color: var(--branco);
+    background-color: var(--laranja-intenso);
+    cursor: default;
+}
+
+.aceitar:hover {
     background-color: var(--laranja-escuro);
 }
 
-.aceitar:disabled{
+.aceitar:disabled {
     background-color: var(--cinza);
     color: var(--cinza-azulado);
+    cursor: default;
 }
 
 .cancelar {
@@ -33,6 +49,7 @@ button {
     color: var(--laranja-escuro);
 }
 
-.cancelar:disabled{
-    color: var(--cinza-claro)
+.cancelar:disabled {
+    color: var(--cinza-claro);
+    cursor: default;
 }

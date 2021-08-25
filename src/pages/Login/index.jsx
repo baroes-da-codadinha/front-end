@@ -45,7 +45,7 @@ export default function Login() {
 
       logar(token);
 
-      history.push('/produtos');
+      history.push('/pedidos');
     } catch (error) {
       setMensagem({ texto: error.message, status: 'erro' });
       setOpenSnack(true);

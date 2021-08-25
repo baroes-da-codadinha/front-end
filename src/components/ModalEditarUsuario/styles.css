@@ -1,4 +1,5 @@
 .n-cadastro{
+    z-index:30;
     flex-direction: column;
     margin: 2vh auto;
     height: 180vh;

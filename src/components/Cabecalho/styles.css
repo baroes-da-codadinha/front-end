@@ -41,15 +41,24 @@
 }
 
 .localizar-titulo{
+    display: flex;
+    flex-direction: column;
     position: absolute;
-    top: 18vh;
+    top: 12vh;
     left: 23vw;
     color: var(--branco);
     font-size: 4rem;
 }
 
+.localizar-titulo div{
+    position: relative;
+    display: flex;
+    gap: 2rem;
+    z-index: 5;
+}
+
 .botao-logout{
-    margin-left: 37vw;
+    margin-left: 34vw;
     color: var(--branco);
     background-color: transparent;
     font-size: 1.6rem;

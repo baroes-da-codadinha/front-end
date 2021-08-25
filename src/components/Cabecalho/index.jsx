@@ -68,6 +68,21 @@ export default function Cabecalho() {
               <span className="titulo sombreado">
                 {dadosUsuario.restaurante.nome}
               </span>
+              <div>
+              <button
+                className="reverso"
+                onClick={() => history.push('cardapio')}
+                disabled={window.location.href.includes('cardapio') && true}
+              >
+                Cardápio
+              </button>
+              <button
+                className="reverso"
+                onClick={() => history.push('pedidos')}
+                disabled={window.location.href.includes('pedidos') && true}
+                >
+                Pedidos
+              </button>
               <button
                 className="botao-logout sombreado"
                 type="button"
@@ -75,6 +90,7 @@ export default function Cabecalho() {
               >
                 Logout
               </button>
+              </div>
             </div>
           </>
         )
