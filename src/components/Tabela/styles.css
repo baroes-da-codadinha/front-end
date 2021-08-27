@@ -1,6 +1,8 @@
 .tabela-box {
     display: flex;
-    margin: 3.3rem 9.5rem;
+    flex-direction: column;
+    margin: 3.3rem
+     9.5rem;
 }
 
 .tabela-box * {
@@ -18,6 +20,16 @@
     background-color:#F0F0F0;
 }
 
-.tabela-head div {
+.tabela-head div, .tabela-item div {
     text-align: center;
+}
+
+.tabela-item{
+    display: flex;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 0.1rem solid #F0F0F0;
 }
