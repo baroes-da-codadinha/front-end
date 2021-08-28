@@ -41,7 +41,8 @@ export default function DashPedidos() {
             subtotal: 50000,
             taxa: 4500,
             total: 54500,
-            entregue: false
+            entregue: false,
+            enviado: false,
         },
         {
             id: 2,
@@ -95,7 +96,8 @@ export default function DashPedidos() {
             subtotal: 50000,
             taxa: 4500,
             total: 54500,
-            entregue: false
+            entregue: false,
+            enviado: true,
         },
     ]);
 
@@ -115,6 +117,7 @@ export default function DashPedidos() {
             }
         } catch (error) {
             setMensagem({ texto: error.message, status: 'erro' });
+            setOpenSnack(true);
         }
     }
     return (
