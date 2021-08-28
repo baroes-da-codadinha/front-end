@@ -1,5 +1,6 @@
 import './styles.css';
 import editarId from '../../functions/editarId';
+import editarEndereco from '../../functions/editarEndereco';
 import editarPreco from '../../functions/editarPreco';
 
 export default function Tabela({ pedidos, setSelecionado, setAbrirModal }) {
@@ -32,20 +33,25 @@ export default function Tabela({ pedidos, setSelecionado, setAbrirModal }) {
                     className="tabela-item"
                     key={item.id}
                 >
-                    <div>{item && editarId(item.id)}
+                    <div>
+                        {item && editarId(item.id)}
                     </div>
-                    <div className="flex-column">
-                        {item.itens[0].nome}
+                    <div className="textinho-tabela flex-column">
+                        {item.itens[0].nome + ' - ' + item.itens[0].quantidade + 'uni'}
                         <br />
-                        {item.itens[1] && item.itens[1].nome}
+                        {item.itens[1] && item.itens[1].nome + ' - ' + item.itens[1].quantidade + 'uni'}
                         <br />
-                        {item.itens[2] && 'Ver mais'}
+                        {item.itens[2] && '...'}
+                    </div>
+                    <div className="textinho-tabela">
+                        {item && editarEndereco(item.endereco)}
+                    </div>
+                    <div className="textinho-tabela" >
+                        {item.consumidor.nome}
                     </div>
                     <div>
-                        {item.endereco.endereco + item.endereco.complemento + item.endereco.cep}
+                        {item && editarPreco(item.total, true)}
                     </div>
-                    <div>{item.consumidor.nome}</div>
-                    <div>{item && editarPreco(item.total, true)}</div>
                 </div>
             ))}
         </div>

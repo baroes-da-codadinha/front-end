@@ -13,22 +13,6 @@ button {
     padding: 1.3rem 4rem;
 }
 
-.reverso {
-    background-color: var(--branco);
-    color: var(--laranja-intenso);
-    padding: 0.6rem 3rem;
-}
-
-.reverso:hover {
-    background-color: var(--cinza-claro);
-}
-
-.reverso:disabled {
-    color: var(--branco);
-    background-color: var(--laranja-intenso);
-    cursor: default;
-}
-
 .aceitar:hover {
     background-color: var(--laranja-escuro);
 }
@@ -51,5 +35,22 @@ button {
 
 .cancelar:disabled {
     color: var(--cinza-claro);
+    cursor: default;
+}
+
+
+.reverso {
+    background-color: var(--branco);
+    color: var(--laranja-intenso);
+    padding: 0.6rem 3rem;
+}
+
+.reverso:hover {
+    background-color: #F0F0F0;
+}
+
+.reverso:disabled {
+    color: var(--branco);
+    background-color: var(--laranja-intenso);
     cursor: default;
 }

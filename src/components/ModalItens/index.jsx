@@ -5,6 +5,7 @@ import editarPreco from '../../functions/editarPreco';
 import editarId from '../../functions/editarId';
 import IconFechar from '../../assets/x.svg';
 import Snackbar from '../Snackbar';
+import editarEndereco from '../../functions/editarEndereco';
 
 export default function ModalItens({ selecionado, setAbrirModal, abrirModal }) {
   const [mensagem, setMensagem] = useState('');
@@ -32,7 +33,7 @@ export default function ModalItens({ selecionado, setAbrirModal, abrirModal }) {
               <div>
                 <span className="txt-end-entrega">Endereco de entrega:</span>
                 <span className="text-endereco">
-                  {selecionado.endereco.endereco + selecionado.endereco.complemento + selecionado.endereco.cep}
+                  {selecionado && editarEndereco(selecionado.endereco)}
                 </span>
               </div>
             </div>

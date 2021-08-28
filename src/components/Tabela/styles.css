@@ -1,8 +1,7 @@
 .tabela-box {
     display: flex;
     flex-direction: column;
-    margin: 3.3rem
-     9.5rem;
+    margin: 3.3rem 9.5rem;
 }
 
 .tabela-box * {
@@ -17,19 +16,33 @@
     width: 100%;
     align-items: center;
     padding: 1rem;
-    background-color:#F0F0F0;
+    background-color: #E0E0E0;
 }
 
 .tabela-head div, .tabela-item div {
     text-align: center;
 }
 
-.tabela-item{
+.tabela-item {
     display: flex;
     display: flex;
     justify-content: center;
     width: 100%;
     align-items: center;
     padding: 1rem;
-    border-bottom: 0.1rem solid #F0F0F0;
+    border-bottom: 0.1rem solid #E0E0E0;
+}
+
+.tabela-item:hover{
+    background-color: #F0F0F0;
+    cursor: pointer;
+}
+
+.textinho-tabela {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+.ver-mais{
+    box-sizing: block;
 }
