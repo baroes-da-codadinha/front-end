@@ -21,7 +21,7 @@ export default function ModalItens({ selecionado, setAbrirModal, abrirModal }) {
     try {
       const enviarPedido = await put(`pedidos/${selecionado.id}`, selecionado, token);
 
-      if (!enviarPedido || !enviarpedido.ok) {
+      if (!enviarPedido || !enviarPedido.ok) {
         setMensagem({ texto: 'O pedido não pôde ser enviado. Tente novamente.', status: 'erro' });
         setOpenSnack(true);
       }

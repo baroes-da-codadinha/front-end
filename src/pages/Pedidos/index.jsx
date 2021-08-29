@@ -46,7 +46,7 @@ export default function DashPedidos() {
 
     useEffect(() => {
         onLoad();
-    }, [filtro])
+    }, [filtro, abrirModal])
     return (
         <div>
             <ModalItens
