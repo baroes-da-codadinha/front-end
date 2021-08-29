@@ -12,104 +12,23 @@ export default function DashPedidos() {
     const { token } = useAuth();
 
 
-    const [filtro, setFiltro] = useState(true);
+    const [filtro, setFiltro] = useState(false);
     const [abrirModal, setAbrirModal] = useState(false);
     const [mensagem, setMensagem] = useState('');
     const [openSnack, setOpenSnack] = useState(false);
 
     const [selecionado, setSelecionado] = useState('')
-    const [pedidos, setPedidos] = useState([
-        {
-            id: 1,
-            consumidor: {
-                nome: "Rodrigo"
-            },
-            endereco: {
-                cep: "37553195",
-                endereco: "Rua Arlindo Lopes da Silva",
-                complemento: "Ao lado da quitanda"
-            },
-            itens: [
-                {
-                    nome: "Pizza",
-                    preco: 5000,
-                    quantidade: 2,
-                    url_imagem: "https://via.placeholder.com/150"
-                },
-            ],
-            restaurante_id: 1,
-            subtotal: 50000,
-            taxa: 4500,
-            total: 54500,
-            entregue: false,
-            enviado: false,
-        },
-        {
-            id: 2,
-            consumidor: {
-                nome: "Rodrigo Mais novo"
-            },
-            endereco: {
-                cep: "37553195",
-                endereco: "Rua Arlindo Lopes da Silva",
-                complemento: "Ao lado da quitanda"
-            },
-            itens: [
-                {
-                    nome: "Pizza",
-                    preco: 5000,
-                    quantidade: 2,
-                    url_imagem: "https://via.placeholder.com/150"
-                },
-                {
-                    nome: "Pizza",
-                    preco: 5000,
-                    quantidade: 2,
-                    url_imagem: "https://via.placeholder.com/150"
-                },
-                {
-                    nome: "Pizza",
-                    preco: 5000,
-                    quantidade: 2,
-                    url_imagem: "https://via.placeholder.com/150"
-                },
-                {
-                    nome: "Pizza",
-                    preco: 5000,
-                    quantidade: 2,
-                    url_imagem: "https://via.placeholder.com/150"
-                },
-                {
-                    nome: "Pizza",
-                    preco: 5000,
-                    quantidade: 2,
-                    url_imagem: "https://via.placeholder.com/150"
-                },
-                {
-                    nome: "Pizza",
-                    preco: 5000,
-                    quantidade: 2,
-                    url_imagem: "https://via.placeholder.com/150"
-                },
-            ],
-            restaurante_id: 1,
-            subtotal: 50000,
-            taxa: 4500,
-            total: 54500,
-            entregue: false,
-            enviado: true,
-        },
-    ]);
+    const [pedidos, setPedidos] = useState();
 
     async function onLoad() {
         try {
-            const resposta = await get('pedidos', token);
+            const resposta = await get(`pedidos/${filtro}`, token);
 
             if (resposta) {
                 const arrayPedidos = await resposta.json();
                 console.log(arrayPedidos)
                 if (arrayPedidos.length === 0) {
-                    setPedidos([]);
+                    setPedidos();
                     return;
                 }
                 setPedidos(arrayPedidos);
@@ -120,6 +39,14 @@ export default function DashPedidos() {
             setOpenSnack(true);
         }
     }
+
+    useEffect(() => {
+        onLoad();
+    }, [])
+
+    useEffect(() => {
+        onLoad();
+    }, [filtro])
     return (
         <div>
             <ModalItens
@@ -131,18 +58,17 @@ export default function DashPedidos() {
                 <Cabecalho
                 />
                 <div className='sub-cabecalho-pedidos'>
-                    <div className={`noselect select left ${filtro && 'ativo'}`}
+                    <div className={`noselect select left ${!filtro && 'ativo'}`}
                         onClick={() => setFiltro(!filtro)}
                     >
                         Não entregues
                     </div>
-                    <div className={`noselect select right ${!filtro && 'ativo'}`}
+                    <div className={`noselect select right ${filtro && 'ativo'}`}
                         onClick={() => setFiltro(!filtro)}
                     >
                         Entregues
                     </div>
                 </div>
-
                 <Tabela
                     pedidos={pedidos}
                     setSelecionado={setSelecionado}

@@ -27,7 +27,7 @@ export default function Tabela({ pedidos, setSelecionado, setAbrirModal }) {
                     Total
                 </div>
             </div>
-            {pedidos.map((item) => (
+            {pedidos && pedidos.map((item) => (
                 <div
                     onClick={() => selecionarItem(item)}
                     className="tabela-item"

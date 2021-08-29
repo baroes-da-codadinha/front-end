@@ -18,9 +18,8 @@ export default function ModalItens({ selecionado, setAbrirModal, abrirModal }) {
 
   async function enviarPedido(selecionado) {
     console.log(selecionado)
-
     try {
-      const enviarPedido = await put(`pedidos/${selecionado.id}`, token);
+      const enviarPedido = await put(`pedidos/${selecionado.id}`, selecionado, token);
 
       if (!enviarPedido || !enviarpedido.ok) {
         setMensagem({ texto: 'O pedido não pôde ser enviado. Tente novamente.', status: 'erro' });
