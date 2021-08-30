@@ -63,7 +63,7 @@ export default function Dashboard() {
         setProdutoEditado={setProdutoEditado}
       />
       )}
-      <div className={(modalCadastrarProduto || modalCadastrarProduto) && 'blurry'}>
+      <div className={(modalCadastrarProduto || modalEditarProduto) && 'blurry'}>
         <Cabecalho />
         <div className={`sub-cabecalho ${!produtos && 'vazio'}`}>
           <div>

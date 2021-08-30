@@ -6,7 +6,6 @@ import './styles.css';
 import guardarPreco from '../../functions/guardarPreco';
 import conferirPreco from '../../functions/conferirPreco';
 import ehNumero from '../../functions/ehNumero';
-import categorias from '../../assets/categorias';
 import InputSenha from '../../components/InputSenha';
 import InputTexto from '../../components/InputTexto';
 import InputValor from '../../components/InputValor';
