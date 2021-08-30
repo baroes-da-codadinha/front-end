@@ -42,7 +42,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     onLoad();
-  }, [produtos,
+  }, [
     modalCadastrarProduto,
     modalEditarProduto,
     cadastroProduto]);
@@ -50,18 +50,18 @@ export default function Dashboard() {
   return (
     <div>
       {modalCadastrarProduto && (
-      <ModalCadastrarProduto
-        produto={cadastroProduto}
-        setModalCadastrarProduto={setModalCadastrarProduto}
-        setProdutoEditado={setCadastroProduto}
-      />
+        <ModalCadastrarProduto
+          produto={cadastroProduto}
+          setModalCadastrarProduto={setModalCadastrarProduto}
+          setProdutoEditado={setCadastroProduto}
+        />
       )}
       {modalEditarProduto && (
-      <ModalEditarProduto
-        produto={produtoEditado}
-        setModalEditarProduto={setModalEditarProduto}
-        setProdutoEditado={setProdutoEditado}
-      />
+        <ModalEditarProduto
+          produto={produtoEditado}
+          setModalEditarProduto={setModalEditarProduto}
+          setProdutoEditado={setProdutoEditado}
+        />
       )}
       <div className={(modalCadastrarProduto || modalEditarProduto) && 'blurry'}>
         <Cabecalho />
