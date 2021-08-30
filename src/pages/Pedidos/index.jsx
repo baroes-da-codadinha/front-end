@@ -18,7 +18,7 @@ export default function DashPedidos() {
     const [openSnack, setOpenSnack] = useState(false);
 
     const [selecionado, setSelecionado] = useState('')
-    const [pedidos, setPedidos] = useState();
+    const [pedidos, setPedidos] = useState([]);
 
     async function onLoad() {
         try {
@@ -28,7 +28,7 @@ export default function DashPedidos() {
                 const arrayPedidos = await resposta.json();
                 console.log(arrayPedidos)
                 if (arrayPedidos.length === 0) {
-                    setPedidos();
+                    setPedidos([]);
                     return;
                 }
                 setPedidos(arrayPedidos);

@@ -37,7 +37,7 @@ export default function Cabecalho() {
 
   useEffect(() => {
     onLoad();
-  }, [dadosUsuario,
+  }, [
     modalEditarUsuario]);
 
   return (
